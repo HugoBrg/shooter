@@ -4,7 +4,10 @@ let ctx= canvas.getContext("2d");
 let lc;
 let hc;
 let skinJoueur=new Image();
+let project=new Image();
+
 let tableauJoueurs=[];
+let tableauProj=[];
 let hp;
 let rect1Height = 50;
 let rect1Width = 100;
@@ -12,12 +15,16 @@ let rect1X = 700;
 let rect1Y = 10;
 
 
-let projectile;
 
-
-function changeBg()
-{
-  canvas.style.background='url(https://wallpapercave.com/wp/XbmNalC.jpg)';
+function changeBg(val)
+{   let span = document.querySelector("#val");
+  span.innerHTML = val;
+  switch(val)
+    { case '1': canvas.style.background='url url(https://s3-eu-west-1.amazonaws.com/friday-ad/uploads/image/16639301_16639400/dj-for-hire-london-m25-mobile-disco-with-pa-system-birthdays-office-parties-christmas-events-16639337-2_800X600.jpg?cdc151883cf63ea9)'; break;
+      case '2': canvas.style.background='url(https://wallpapercave.com/wp/XbmNalC.jpg)'; break;
+      case '3': canvas.style.background='url(http://www.linuxcmd.org/lcshow/small/23/239344_dbz-gohan-wallpaper.jpg)'; break;
+      default: break;
+    }
 }
 
 
@@ -42,6 +49,20 @@ class Joueur
     
   }
 
+class Projectile
+  {
+    constructor(Img)
+    { this.x=Math.floor((Math.random() * lc) + 1);
+      this.img=Img;
+      this.y=Math.floor((Math.random() * hc) + 1);
+    }
+    
+    draw(ctx,lien)
+    { project.src=lien;
+      ctx.drawImage(project, 0, 0, 420, 225, this.x,this.y,100,300);
+    }
+    
+  }
 
 window.onload = function () {
     // Appelé quand la page est prête et a chargé
@@ -50,17 +71,34 @@ window.onload = function () {
     lc = canvas.width;
     hc = canvas.height;
 genererJoueurs();
-    
+  
+    this.setInterval(genererProj, 2000);
     // Pour animation à 60 im/s
     requestAnimationFrame(anime);
 }
 
-function changerSkin()
+/*function changerSkin()
 {
   j1.skin="https://myanimelist.cdn-dena.com/images/characters/3/307237.jpg";
+}*/
+
+
+function genererProj()
+{ 
+  let newproj=new Projectile("http://benoit.montorsi.free.fr/fleche.png");
+  tableauProj.push(newproj);
+  afficherProj();
 }
 
+function afficherProj()
+{
+  
+ tableauProj.forEach((r) => {
+    r.draw(ctx,r.img);
+  })
 
+  
+}
 
 function genererJoueurs()
 { 
@@ -109,6 +147,7 @@ function anime() {
     // 2
   afficherBarresVie();
 afficherJoueurs();
+  afficherProj();
     // 3
 
 
