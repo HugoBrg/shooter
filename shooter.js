@@ -3,6 +3,8 @@ let ctx= canvas.getContext("2d");
 
 let lc;
 let hc;
+let vx=10;
+let vy=10;
 let skinJoueur=new Image();
 let project=new Image();
 
@@ -20,7 +22,7 @@ function changeBg(val)
 {   let span = document.querySelector("#val");
   span.innerHTML = val;
   switch(val)
-    { case '1': canvas.style.background='url url(https://s3-eu-west-1.amazonaws.com/friday-ad/uploads/image/16639301_16639400/dj-for-hire-london-m25-mobile-disco-with-pa-system-birthdays-office-parties-christmas-events-16639337-2_800X600.jpg?cdc151883cf63ea9)'; break;
+    { case '1': canvas.style.background='url(https://s3-eu-west-1.amazonaws.com/friday-ad/uploads/image/16639301_16639400/dj-for-hire-london-m25-mobile-disco-with-pa-system-birthdays-office-parties-christmas-events-16639337-2_800X600.jpg?cdc151883cf63ea9)'; break;
       case '2': canvas.style.background='url(https://wallpapercave.com/wp/XbmNalC.jpg)'; break;
       case '3': canvas.style.background='url(http://www.linuxcmd.org/lcshow/small/23/239344_dbz-gohan-wallpaper.jpg)'; break;
       default: break;
@@ -71,8 +73,24 @@ window.onload = function () {
     lc = canvas.width;
     hc = canvas.height;
 genererJoueurs();
+  document.addEventListener('keydown', function (event) { 
+  switch (event.keyCode) {
+           case 37:
+                tableauJoueurs[0].x-=vx;//gauche
+              break;
+           case 38:
+                tableauJoueurs[0].y-=vy;//haut
+              break;
+           case 39:
+                tableauJoueurs[0].x+=vx; //droite
+              break;
+           case 40:
+               tableauJoueurs[0].y+=vy; //bas
+              break;
+        }
   
-    this.setInterval(genererProj, 2000);
+  });
+    this.setInterval(genererProj, 2000); //générer une image de projectile à un endroit aléatoire toutes les 2s
     // Pour animation à 60 im/s
     requestAnimationFrame(anime);
 }
@@ -96,7 +114,6 @@ function afficherProj()
  tableauProj.forEach((r) => {
     r.draw(ctx,r.img);
   })
-
   
 }
 
