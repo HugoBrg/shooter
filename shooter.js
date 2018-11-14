@@ -16,7 +16,8 @@ let rect1Width = 100;
 let rect1X = 700;
 let rect1Y = 10;
 
-console.log("oui");
+let test=0;
+//console.log("oui");
 
 
 function changeBg(val) {   
@@ -48,9 +49,7 @@ class Joueur{
     
   draw(ctx,skinPlayer) {  
     skinJoueur.src=skinPlayer;
-    largImage=150; //largeur nécessaire pour que l'image générée rende bien
-    hautImage=100; //pareil pour la hauteur
-    ctx.drawImage(skinJoueur, 0, 0, 420, 225, this.x,this.y,largImage,hautImage);
+    ctx.drawImage(skinJoueur, 0, 0,420, 225, this.x,this.y,Math.round(skinJoueur.height/2),Math.round(skinJoueur.width/2));
   }    
 }
 
@@ -63,7 +62,7 @@ class Projectile {
     
   draw(ctx,lien) { 
     project.src=lien;
-    ctx.drawImage(project, 0, 0, 420, 225, this.x,this.y,100,300);
+    ctx.drawImage(project, 0, 0,this.x,this.y);
     }
   }
 
@@ -128,12 +127,14 @@ function genererJoueurs() {
 
 function afficherJoueurs() {
   tableauJoueurs.forEach((r) => {
+    wallCollision(r,r.skin);
     r.draw(ctx,r.skin);
+    
   })
 }
 
 function afficherBarresVie() { 
-  rect1Height = 50;
+   rect1Height = 50;
    rect1Width = lc*0.7;
    rect1X = lc/8;
    rect1Y = hc/99;
@@ -160,7 +161,7 @@ function anime() {
   ctx.clearRect(0, 0, lc, hc);
 
   // 2
-  afficherBarresVie();
+  //afficherBarresVie();
   afficherJoueurs();
   afficherProj();
   // 3
@@ -169,4 +170,26 @@ function anime() {
   // 4 on demande au browser de rappeler la fonction
   // dans 1/60ème de seconde
   requestAnimationFrame(anime);
+}
+
+function wallCollision(r,skinPlayer){
+    ctx.save();
+    skinJoueur.src=skinPlayer;
+  //(Math.round(r.x)+Math.round(skinJoueur.width/2))
+    if(r.x > lc){
+      console.log(lc);
+      console.log(Math.round(skinJoueur.width/2));
+      console.log(Math.round(r.x));
+      r.x=0;
+    }
+    else if(r.x < 0){
+      r.x=lc;
+    }
+    else if(r.y > hc){
+      r.y=0;
+    }
+    else if(r.y < 0){
+      r.y=hc;
+    }
+    ctx.restore();
 }
