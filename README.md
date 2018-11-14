@@ -14,9 +14,9 @@
 
 ## Modules
 + Jeu principale
-+ Personnage (incluant changement d'apparance)
-+ Terrain (incluant changement d'apparance)
++ Personnage (incluant changement d'apparence)
++ Terrain (incluant changement d'apparence)
 + Score (stock les scores)
 + Evenements claviers
 + Projectiles
-+ Collisions (entre personnages et projectiles
++ Collisions (entre personnages et projectiles)
