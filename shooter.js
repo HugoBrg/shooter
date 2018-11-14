@@ -16,6 +16,7 @@ let rect1Width = 100;
 let rect1X = 700;
 let rect1Y = 10;
 
+console.log("oui");
 
 
 function changeBg(val)
@@ -69,7 +70,8 @@ class Projectile
 window.onload = function () {
     // Appelé quand la page est prête et a chargé
     // toutes ses ressources (images, vidéos etc.)
-    console.log("pret")
+    console.log("pret");
+	alert("entré dans la fonction");
     lc = canvas.width;
     hc = canvas.height;
 genererJoueurs();
@@ -93,6 +95,11 @@ genererJoueurs();
     this.setInterval(genererProj, 2000); //générer une image de projectile à un endroit aléatoire toutes les 2s
     // Pour animation à 60 im/s
     requestAnimationFrame(anime);
+}
+
+function init()
+{
+	alert("oui");
 }
 
 /*function changerSkin()
