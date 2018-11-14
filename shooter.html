@@ -4,13 +4,18 @@
 <head>
   <meta charset="utf-8">
   <title>Exemple dessin</title>
-  <script src="shooter.js"></script>
+  <link rel="stylesheet" type="text/css" href="shooter.css">
+
 </head>
 <body>
  <!-- le canvas fait la taille de l'image en fond, si le canvas est plus grand, l'image se duplique -->
-  <canvas id="myCanvas" width=736 height=552 style="background: url(https://s3-eu-west-1.amazonaws.com/friday-ad/uploads/image/16639301_16639400/dj-for-hire-london-m25-mobile-disco-with-pa-system-birthdays-office-parties-christmas-events-16639337-2_800X600.jpg?cdc151883cf63ea9)">
+  <canvas id="myCanvas" width=736 height=552> 
+	   <script type="text/javascript" src="scripts/shooter.js"> </script>
 
-  </canvas>
-  <button onclick="changeBg();"> oui </button>
+  </canvas> 
+  <input type="range" value=1 min=1 max = 10 step=1 
+          oninput="changeBg(this.value);"/>
+  <p>Fond d'écran numéro = <output id="val">1</output></p>
   </body>
+  
 </html>
