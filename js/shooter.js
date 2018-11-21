@@ -88,22 +88,22 @@ window.onload = function () {
         case 40:
                 tableauJoueurs[0].y+=vy; //bas
                 break;
-            case 81:
-                    tableauJoueurs[1].x-=vx;//gauche
-            break;
-            case 90:
-            tableauJoueurs[1].y-=vy;//haut
-              break;
+        case 81:
+                tableauJoueurs[1].x-=vx;//gauche
+                break;
+        case 90:
+                tableauJoueurs[1].y-=vy;//haut
+                break;
         case 68:
                 tableauJoueurs[1].x+=vx; //droite
                 break;
         case 83:
                 tableauJoueurs[1].y+=vy; //bas
                 break;
-            case 32:
-                      console.log("Tir");
-                     tirer();
-                     break;
+        case 32:
+                console.log("Tir");
+                tirer();
+                break;
             
             
     }
@@ -177,8 +177,9 @@ function afficherBarresVie() {
    rect2Y = hc*0.9;
    ctx.font = "20pt Cambria";
   
-      ctx.strokeRect(rect1X,rect1Y,rect1Width,rect1Height);
+    ctx.strokeRect(rect1X,rect1Y,rect1Width,rect1Height);
     ctx.strokeRect(rect2X,rect2Y,rect2Width,rect2Height);
+    /*
     console.log("----------------------");
     if (tableauJoueurs[0].vie<=60 && tableauJoueurs[0].vie>30) {
         console.log("vie jaune joueur1");
@@ -208,7 +209,7 @@ function afficherBarresVie() {
       console.log("vie verte joueur2");
       color2 = 'green';
     }
-    ctx.fillStyle = color2;
+    ctx.fillStyle = color2;*/
   console.log(color2);
     ctx.fillRect(rect2X,rect2Y,rect2Width,rect2Height);
   
