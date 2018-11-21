@@ -151,8 +151,8 @@ function afficherProj() {
 }
 
 function genererJoueurs() { 
-  let j1=new Joueur(lc/2.5,100,"https://myanimelist.cdn-dena.com/images/characters/3/307237.jpg",100);
-  let j2=new Joueur(lc/2.5,300,"https://myanimelist.cdn-dena.com/images/characters/3/307237.jpg",100); 
+  let j1=new Joueur(lc/2.5,100,"https://myanimelist.cdn-dena.com/images/characters/3/307237.jpg",10);
+  let j2=new Joueur(lc/2.5,300,"https://myanimelist.cdn-dena.com/images/characters/3/307237.jpg",50); 
   tableauJoueurs.push(j1);
   tableauJoueurs.push(j2);  
 }
@@ -163,55 +163,77 @@ function afficherJoueurs() {
     r.draw(ctx,r.skin);
     
   })
-}d
+}
 
-function afficherBarresVie() { 
+function afficherBarresVie() {
+  /*-------JOUEUR--1-------*/
+  // Hauteur barre de vie joueur 1
   rect1Height = 10;
-	rect1Width = tableauJoueurs[0].vie;
+  // Largeur barre de vie joueur 1
+  rect1Width = tableauJoueurs[0].vie;
+  // Permet de créer un rectangle (barre de vie) qui suit le personnage avec la position du joueur 1
 	rect1X = tableauJoueurs[0].x;
-	rect1Y = tableauJoueurs[0].y-15;
-    
-  
-	rect2Height = 10;
-	rect2Width = tableauJoueurs[1].vie;
+  rect1Y = tableauJoueurs[0].y-15;
+  /*-------JOUEUR--2-------*/
+  // Hauteur barre de vie joueur 2
+  rect2Height = 10;
+  // Largeur barre de vie joueur 2
+  rect2Width = tableauJoueurs[1].vie;
+  // Permet de créer un rectangle (barre de vie) qui suit le personnage avec la position du joueur 2
 	rect2X = tableauJoueurs[1].x;
-	rect2Y = tableauJoueurs[1].y-15;
+  rect2Y = tableauJoueurs[1].y-15;
   
-    ctx.strokeRect(rect1X,rect1Y,rect1Width,rect1Height);
-    ctx.strokeRect(rect2X,rect2Y,rect2Width,rect2Height);
-    
-    console.log("----------------------");
-    if (tableauJoueurs[0].vie<=60 && tableauJoueurs[0].vie>30) {
-        console.log("vie jaune joueur1");
-        color1 = 'yellow';
-    }
-    if (tableauJoueurs[0].vie<=30) {
-      console.log("vie rouge joueur1");
-        color1 = 'red';
-    }
-    if (tableauJoueurs[0].vie<=100 &&tableauJoueurs[0].vie>60) {
-      console.log("vie verte joueur 1");
-      color1 = 'green';
-    }
-    ctx.fillStyle = color1;
-    console.log(color1);
-    ctx.fillRect(rect1X,rect1Y,rect1Width,rect1Height);
+  /*-------JOUEUR--1/2-------*/
+  // Création de la bordure de la barre de vie des deux joueurs
+  ctx.strokeRect(rect1X,rect1Y,rect1Width,rect1Height);
+  ctx.strokeRect(rect2X,rect2Y,rect2Width,rect2Height);
 
-    if (tableauJoueurs[1].vie<=60 && tableauJoueurs[0].vie>30) {
-        console.log("vie jaune joueur2");
-        color2 = 'yellow';
-    }
-    if (tableauJoueurs[1].vie<=30) {
-      console.log("vie rouge joueur2");
-        color2 = 'red';
-    }
-    if (tableauJoueurs[1].vie<=100 &&tableauJoueurs[0].vie>60) {
-      console.log("vie verte joueur2");
-      color2 = 'green';
-    }
-    ctx.fillStyle = color2;
+  /*-------JOUEUR--1-------*/
+  console.log("----------------------");
+  console.log(tableauJoueurs[0].vie);
+  // Barre de vie du joueur 1 plus de 60 pv (vert)
+  if (tableauJoueurs[0].vie<=100 &&tableauJoueurs[0].vie>60) {
+    console.log("vie verte joueur 1");
+    color1 = 'green';
+  }
+  // Barre de vie du joueur 1 entre 30 pv et 60 pv (jaune)
+  if (tableauJoueurs[0].vie<=60 && tableauJoueurs[0].vie>30) {
+    console.log("vie jaune joueur1");
+    color1 = 'yellow';
+  }
+  // Barre de vie du joueur 1 moins de 30 pv (rouge)
+  if (tableauJoueurs[0].vie<=30) {
+    console.log("vie rouge joueur1");
+    color1 = 'red';
+  }
+  // On ajoute la bonne couleur au contexte
+  ctx.fillStyle = color1;
+  console.log(color1);
+  // Création de la barre de vie du joueur 1
+  ctx.fillRect(rect1X,rect1Y,rect1Width,rect1Height);
+  console.log(tableauJoueurs[1].vie);
+  /*-------JOUEUR--2-------*/
+  // Barre de vie du joueur 2 plus de 60 pv (vert)
+  if (tableauJoueurs[1].vie<=100 &&tableauJoueurs[1].vie>60) {
+    console.log("vie verte joueur2");
+    color2 = 'green';
+  }
+  
+  // Barre de vie du joueur 2 entre 30 pv et 60 pv (jaune)
+  if (tableauJoueurs[1].vie<=60 && tableauJoueurs[1].vie>30) {
+    console.log("vie jaune joueur2");
+    color2 = 'yellow';
+  }
+  // Barre de vie du joueur 2 moins de 30 pv (rouge)
+  if (tableauJoueurs[1].vie<=30) {
+    console.log("vie rouge joueur2");
+    color2 = 'red';
+  }
+  // On ajoute la bonne couleur au contexte
+  ctx.fillStyle = color2;
   console.log(color2);
-    ctx.fillRect(rect2X,rect2Y,rect2Width,rect2Height);
+  // Création de la barre de vie du joueur 2
+  ctx.fillRect(rect2X,rect2Y,rect2Width,rect2Height);
   
 }
 
@@ -222,7 +244,7 @@ function anime() {
   // 2
   afficherBarresVie();
   afficherJoueurs();
-  afficherProj();
+  //afficherProj();
   // 3
 
 
