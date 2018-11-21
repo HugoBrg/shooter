@@ -10,6 +10,7 @@ let project=new Image();
 
 let tableauJoueurs=[];
 let tableauProj=[];
+let tableauTir=[];
 let hp;
 let rect1Height = 50;
 let rect1Width = 100;
@@ -65,36 +66,75 @@ class Projectile {
     ctx.drawImage(project, 0, 0,this.x,this.y);
     }
   }
-
+class Tir{
+    constructor(Img){ 
+      this.x=Math.floor((Math.random() * lc) + 1);
+        this.img=Img;
+        this.y=Math.floor((Math.random() * hc) + 1);
+    }
+    
+    draw(ctx,lien){
+      project.src=lien;
+        ctx.drawImage(project, 0, 0, 420, 225, this.x,this.y,100,300);
+    }    
+}
 window.onload = function () {
     // Appelé quand la page est prête et a chargé
     // toutes ses ressources (images, vidéos etc.)
-  console.log("pret");
-	alert("entré dans la fonction");
-  lc = canvas.width;
-  hc = canvas.height;
+   console.log("pret")
+    lc = canvas.width;
+    hc = canvas.height;
   genererJoueurs();
   document.addEventListener('keydown', function (event) { 
     switch (event.keyCode) {
       case 37:
-        tableauJoueurs[0].x-=vx;//gauche
-        break;
+            tableauJoueurs[0].x-=vx;//gauche
+            break;
       case 38:
-        tableauJoueurs[0].y-=vy;//haut
-        break;
-      case 39:
-        tableauJoueurs[0].x+=vx; //droite
-        break;
-      case 40:
-        tableauJoueurs[0].y+=vy; //bas
-        break;
+            tableauJoueurs[0].y-=vy;//haut
+              break;
+        case 39:
+                tableauJoueurs[0].x+=vx; //droite
+                break;
+        case 40:
+                tableauJoueurs[0].y+=vy; //bas
+                break;
+            case 81:
+                    tableauJoueurs[1].x-=vx;//gauche
+            break;
+            case 90:
+            tableauJoueurs[1].y-=vy;//haut
+              break;
+        case 68:
+                tableauJoueurs[1].x+=vx; //droite
+                break;
+        case 83:
+                tableauJoueurs[1].y+=vy; //bas
+                break;
+            case 32:
+                      console.log("Tir");
+                     tirer();
+                     break;
+            
+            
     }
   });
   this.setInterval(genererProj, 2000); //générer une image de projectile à un endroit aléatoire toutes les 2s
   // Pour animation à 60 im/s
   requestAnimationFrame(anime);
 }
-
+class Tir{
+    constructor(Img){ 
+      this.x=Math.floor((Math.random() * lc) + 1);
+        this.img=Img;
+        this.y=Math.floor((Math.random() * hc) + 1);
+    }
+    
+    draw(ctx,lien){
+      project.src=lien;
+        ctx.drawImage(project, 0, 0, 420, 225, this.x,this.y,100,300);
+    }    
+}
 function init() {
 	alert("oui");
 }
@@ -104,6 +144,11 @@ function init() {
   j1.skin="https://myanimelist.cdn-dena.com/images/characters/3/307237.jpg";
 }*/
 
+function tirer(){
+  let newtir=new Tir("https://www.casimages.com/i/18111410532990265.png.html");
+  tableauTir.push(newtir);
+  afficherTir();
+}
 
 function genererProj() { 
   let newproj=new Projectile("http://benoit.montorsi.free.fr/fleche.png");
@@ -131,7 +176,7 @@ function afficherJoueurs() {
     r.draw(ctx,r.skin);
     
   })
-}
+}d
 
 function afficherBarresVie() { 
    rect1Height = 50;
@@ -145,15 +190,41 @@ function afficherBarresVie() {
    rect2Y = hc*0.9;
    ctx.font = "20pt Cambria";
   
-  ctx.strokeStyle = "#000000";
-  ctx.strokeRect(rect1X,rect1Y,rect1Width,rect1Height);
-  ctx.fillStyle = 'blue';
- 
+      ctx.strokeRect(rect1X,rect1Y,rect1Width,rect1Height);
+    ctx.strokeRect(rect2X,rect2Y,rect2Width,rect2Height);
+    console.log("----------------------");
+    if (tableauJoueurs[0].vie<=60 && tableauJoueurs[0].vie>30) {
+        console.log("vie jaune joueur1");
+        color1 = 'yellow';
+    }
+    if (tableauJoueurs[0].vie<=30) {
+      console.log("vie rouge joueur1");
+        color1 = 'red';
+    }
+    if (tableauJoueurs[0].vie<=100 &&tableauJoueurs[0].vie>60) {
+      console.log("vie verte joueur 1");
+      color1 = 'green';
+    }
+    ctx.fillStyle = color1;
+    console.log(color1);
+    ctx.fillRect(rect1X,rect1Y,rect1Width,rect1Height);
+
+    if (tableauJoueurs[1].vie<=60 && tableauJoueurs[0].vie>30) {
+        console.log("vie jaune joueur2");
+        color2 = 'yellow';
+    }
+    if (tableauJoueurs[1].vie<=30) {
+      console.log("vie rouge joueur2");
+        color2 = 'red';
+    }
+    if (tableauJoueurs[1].vie<=100 &&tableauJoueurs[0].vie>60) {
+      console.log("vie verte joueur2");
+      color2 = 'green';
+    }
+    ctx.fillStyle = color2;
+  console.log(color2);
+    ctx.fillRect(rect2X,rect2Y,rect2Width,rect2Height);
   
-  ctx.fillRect(rect1X,rect1Y,rect1Width,rect1Height);
-  ctx.fillRect(rect2X,rect2Y,rect2Width,rect2Height);
-  ctx.fillText(tableauJoueurs[0].vie,rect1X+(rect1Width),rect1Y+(rect1Height));
-  ctx.fillText(tableauJoueurs[1].vie,rect2X+(rect2Width),rect2Y+(rect2Height));
 }
 
 function anime() {
