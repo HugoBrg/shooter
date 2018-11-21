@@ -183,6 +183,7 @@ function afficherBarresVie() {
   // Permet de créer un rectangle (barre de vie) qui suit le personnage avec la position du joueur 2
 	rect2X = tableauJoueurs[1].x;
   rect2Y = tableauJoueurs[1].y-15;
+  
   /*-------JOUEUR--1/2-------*/
   // Création de la bordure de la barre de vie des deux joueurs
   ctx.strokeRect(rect1X,rect1Y,rect1Width,rect1Height);
