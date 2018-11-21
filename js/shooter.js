@@ -238,10 +238,6 @@ function afficherBarresVie() {
   // Création de la bordure de la barre de vie des deux joueurs
   ctx.strokeRect(rect1X,rect1Y,rect1Width,rect1Height);
   ctx.strokeRect(rect2X,rect2Y,rect2Width,rect2Height);
-<<<<<<< HEAD
-    
-  //console.log("----------------------");
-=======
 
   /*-------JOUEUR--1-------*/
   console.log("----------------------");
@@ -252,7 +248,6 @@ function afficherBarresVie() {
     color1 = 'green';
   }
   // Barre de vie du joueur 1 entre 30 pv et 60 pv (jaune)
->>>>>>> e5662fbfa94e47868dec75bcc7d101e67beacc26
   if (tableauJoueurs[0].vie<=60 && tableauJoueurs[0].vie>30) {
     //console.log("vie jaune joueur1");
     color1 = 'yellow';
@@ -262,17 +257,6 @@ function afficherBarresVie() {
     //console.log("vie rouge joueur1");
     color1 = 'red';
   }
-<<<<<<< HEAD
-  if (tableauJoueurs[0].vie<=100 &&tableauJoueurs[0].vie>60) {
-    //console.log("vie verte joueur 1");
-    color1 = 'green';
-  }
-  ctx.fillStyle = color1;
-  //console.log(color1);
-  ctx.fillRect(rect1X,rect1Y,rect1Width,rect1Height);
-  if (tableauJoueurs[1].vie<=60 && tableauJoueurs[0].vie>30) {
-    //console.log("vie jaune joueur2");
-=======
   // On ajoute la bonne couleur au contexte
   ctx.fillStyle = color1;
   console.log(color1);
@@ -290,7 +274,6 @@ function afficherBarresVie() {
   // Barre de vie du joueur 2 entre 30 pv et 60 pv (jaune)
   if (tableauJoueurs[1].vie<=60 && tableauJoueurs[1].vie>30) {
     console.log("vie jaune joueur2");
->>>>>>> e5662fbfa94e47868dec75bcc7d101e67beacc26
     color2 = 'yellow';
   }
   // Barre de vie du joueur 2 moins de 30 pv (rouge)
@@ -298,22 +281,12 @@ function afficherBarresVie() {
     //console.log("vie rouge joueur2");
     color2 = 'red';
   }
-<<<<<<< HEAD
-  if (tableauJoueurs[1].vie<=100 &&tableauJoueurs[0].vie>60) {
-    //console.log("vie verte joueur2");
-    color2 = 'green';
-  }
-  ctx.fillStyle = color2;
-  //console.log(color2);
-  ctx.fillRect(rect2X,rect2Y,rect2Width,rect2Height);  
-=======
   // On ajoute la bonne couleur au contexte
   ctx.fillStyle = color2;
   console.log(color2);
   // Création de la barre de vie du joueur 2
   ctx.fillRect(rect2X,rect2Y,rect2Width,rect2Height);
   
->>>>>>> e5662fbfa94e47868dec75bcc7d101e67beacc26
 }
 
 function anime() {
@@ -358,7 +331,6 @@ function wallCollision(r,skinPlayer){
   }
   ctx.restore();
 }
-<<<<<<< HEAD
 
 function characterCollision(tableauJoueurs){
   ctx.save();
@@ -380,5 +352,3 @@ function characterCollision(tableauJoueurs){
   }
   ctx.restore();
 }
-=======
->>>>>>> e5662fbfa94e47868dec75bcc7d101e67beacc26
