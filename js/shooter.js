@@ -68,61 +68,60 @@ class Projectile {
   }
 
 window.onload = function () {
-    // Appelé quand la page est prête et a chargé
-    // toutes ses ressources (images, vidéos etc.)
-   console.log("pret")
-    lc = canvas.width;
-    hc = canvas.height;
+  // Appelé quand la page est prête et a chargé
+  // toutes ses ressources (images, vidéos etc.)
+  console.log("pret")
+  lc = canvas.width;
+  hc = canvas.height;
   genererJoueurs();
   document.addEventListener('keydown', function (event) { 
     switch (event.keyCode) {
       case 37:
-            tableauJoueurs[0].x-=vx;//gauche
-            break;
+        tableauJoueurs[0].x-=vx;//gauche
+        break;
       case 38:
-            tableauJoueurs[0].y-=vy;//haut
-            break;
-        case 39:
-                tableauJoueurs[0].x+=vx; //droite
-                break;
-        case 40:
-                tableauJoueurs[0].y+=vy; //bas
-                break;
-        case 81:
-                tableauJoueurs[1].x-=vx;//gauche
-                break;
-        case 90:
-                tableauJoueurs[1].y-=vy;//haut
-                break;
-        case 68:
-                tableauJoueurs[1].x+=vx; //droite
-                break;
-        case 83:
-                tableauJoueurs[1].y+=vy; //bas
-                break;
-        case 32:
-                console.log("Tir");
-                tirer();
-                break;
-            
-            
+        tableauJoueurs[0].y-=vy;//haut
+        break;
+      case 39:
+        tableauJoueurs[0].x+=vx; //droite
+        break;
+      case 40:
+        tableauJoueurs[0].y+=vy; //bas
+        break;
+      case 81:
+        tableauJoueurs[1].x-=vx;//gauche
+        break;
+      case 90:
+        tableauJoueurs[1].y-=vy;//haut
+        break;
+      case 68:
+        tableauJoueurs[1].x+=vx; //droite
+        break;
+      case 83:
+        tableauJoueurs[1].y+=vy; //bas
+        break;
+      case 32:
+        console.log("Tir");
+        tirer();
+        break;       
     }
   });
   this.setInterval(genererProj, 2000); //générer une image de projectile à un endroit aléatoire toutes les 2s
   // Pour animation à 60 im/s
   requestAnimationFrame(anime);
 }
-class Tir{
-    constructor(Img){ 
-      this.x=Math.floor((Math.random() * lc) + 1);
-        this.img=Img;
-        this.y=Math.floor((Math.random() * hc) + 1);
-    }
+
+class Tir {
+  constructor(Img){ 
+    this.x=Math.floor((Math.random() * lc) + 1);
+    this.img=Img;
+    this.y=Math.floor((Math.random() * hc) + 1);
+  }
     
-    draw(ctx,lien){
-      project.src=lien;
-        ctx.drawImage(project, 0, 0, 420, 225, this.x,this.y,100,300);
-    }    
+  draw(ctx,lien){
+    project.src=lien;
+    ctx.drawImage(project, 0, 0, 420, 225, this.x,this.y,100,300);
+  }    
 }
 
 
@@ -131,7 +130,7 @@ class Tir{
   j1.skin="https://myanimelist.cdn-dena.com/images/characters/3/307237.jpg";
 }*/
 
-function tirer(){
+function tirer() {
   let newtir=new Tir("https://www.casimages.com/i/18111410532990265.png.html");
   tableauTir.push(newtir);
   afficherTir();
@@ -144,10 +143,9 @@ function genererProj() {
 }
 
 function afficherProj() {  
- tableauProj.forEach((r) => {
+  tableauProj.forEach((r) => {
     r.draw(ctx,r.img);
-  })
-  
+  }) 
 }
 
 function genererJoueurs() { 
@@ -160,10 +158,9 @@ function genererJoueurs() {
 function afficherJoueurs() {
   tableauJoueurs.forEach((r) => {
     wallCollision(r,r.skin);
-    r.draw(ctx,r.skin);
-    
+    r.draw(ctx,r.skin);   
   })
-}d
+}
 
 function afficherBarresVie() { 
   rect1Height = 10;
@@ -177,42 +174,40 @@ function afficherBarresVie() {
 	rect2X = tableauJoueurs[1].x;
 	rect2Y = tableauJoueurs[1].y-15;
   
-    ctx.strokeRect(rect1X,rect1Y,rect1Width,rect1Height);
-    ctx.strokeRect(rect2X,rect2Y,rect2Width,rect2Height);
+  ctx.strokeRect(rect1X,rect1Y,rect1Width,rect1Height);
+  ctx.strokeRect(rect2X,rect2Y,rect2Width,rect2Height);
     
-    console.log("----------------------");
-    if (tableauJoueurs[0].vie<=60 && tableauJoueurs[0].vie>30) {
-        console.log("vie jaune joueur1");
-        color1 = 'yellow';
-    }
-    if (tableauJoueurs[0].vie<=30) {
-      console.log("vie rouge joueur1");
-        color1 = 'red';
-    }
-    if (tableauJoueurs[0].vie<=100 &&tableauJoueurs[0].vie>60) {
-      console.log("vie verte joueur 1");
-      color1 = 'green';
-    }
-    ctx.fillStyle = color1;
-    console.log(color1);
-    ctx.fillRect(rect1X,rect1Y,rect1Width,rect1Height);
-
-    if (tableauJoueurs[1].vie<=60 && tableauJoueurs[0].vie>30) {
-        console.log("vie jaune joueur2");
-        color2 = 'yellow';
-    }
-    if (tableauJoueurs[1].vie<=30) {
-      console.log("vie rouge joueur2");
-        color2 = 'red';
-    }
-    if (tableauJoueurs[1].vie<=100 &&tableauJoueurs[0].vie>60) {
-      console.log("vie verte joueur2");
-      color2 = 'green';
-    }
-    ctx.fillStyle = color2;
+  console.log("----------------------");
+  if (tableauJoueurs[0].vie<=60 && tableauJoueurs[0].vie>30) {
+    console.log("vie jaune joueur1");
+    color1 = 'yellow';
+  }
+  if (tableauJoueurs[0].vie<=30) {
+    console.log("vie rouge joueur1");
+    color1 = 'red';
+  }
+  if (tableauJoueurs[0].vie<=100 &&tableauJoueurs[0].vie>60) {
+    console.log("vie verte joueur 1");
+    color1 = 'green';
+  }
+  ctx.fillStyle = color1;
+  console.log(color1);
+  ctx.fillRect(rect1X,rect1Y,rect1Width,rect1Height);
+  if (tableauJoueurs[1].vie<=60 && tableauJoueurs[0].vie>30) {
+    console.log("vie jaune joueur2");
+    color2 = 'yellow';
+  }
+  if (tableauJoueurs[1].vie<=30) {
+    console.log("vie rouge joueur2");
+    color2 = 'red';
+  }
+  if (tableauJoueurs[1].vie<=100 &&tableauJoueurs[0].vie>60) {
+    console.log("vie verte joueur2");
+    color2 = 'green';
+  }
+  ctx.fillStyle = color2;
   console.log(color2);
-    ctx.fillRect(rect2X,rect2Y,rect2Width,rect2Height);
-  
+  ctx.fillRect(rect2X,rect2Y,rect2Width,rect2Height);  
 }
 
 function anime() {
@@ -225,30 +220,29 @@ function anime() {
   afficherProj();
   // 3
 
-
   // 4 on demande au browser de rappeler la fonction
   // dans 1/60ème de seconde
   requestAnimationFrame(anime);
 }
 
 function wallCollision(r,skinPlayer){
-    ctx.save();
-    skinJoueur.src=skinPlayer;
+  ctx.save();
+  skinJoueur.src=skinPlayer;
   //(Math.round(r.x)+Math.round(skinJoueur.width/2))
-    if(r.x > lc){
-      console.log(lc);
-      console.log(Math.round(skinJoueur.width/2));
-      console.log(Math.round(r.x));
-      r.x=0;
-    }
-    else if(r.x < 0){
-      r.x=lc;
-    }
-    else if(r.y > hc){
-      r.y=0;
-    }
-    else if(r.y < 0){
-      r.y=hc;
-    }
-    ctx.restore();
+  if(r.x > lc){
+    console.log(lc);
+    console.log(Math.round(skinJoueur.width/2));
+    console.log(Math.round(r.x));
+    r.x=0;
+  }
+  else if(r.x < 0){
+    r.x=lc;
+  }
+  else if(r.y > hc){
+    r.y=0;
+  }
+  else if(r.y < 0){
+    r.y=hc;
+  }
+  ctx.restore();
 }
