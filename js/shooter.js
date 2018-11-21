@@ -232,7 +232,7 @@ function anime() {
   ctx.clearRect(0, 0, lc, hc);
 
   // 2
-  //afficherBarresVie();
+  afficherBarresVie();
   afficherJoueurs();
   afficherProj();
   // 3
