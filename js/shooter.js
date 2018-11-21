@@ -101,42 +101,87 @@ window.onload = function () {
         tableauJoueurs[1].y+=vy; //bas
         break;
       case 32:
-        console.log("Tir");
-        tirer();
-        break;       
+        // Tir du joueur 1
+        tirer(1,0); 
+        break;
+      case 65:
+        // Tir du joueur 2
+        tirer(1,1); 
+        break;        
     }
-
-
   });
   this.setInterval(genererProj, 2000); //générer une image de projectile à un endroit aléatoire toutes les 2s
   // Pour animation à 60 im/s
   requestAnimationFrame(anime);
 }
 
-class Tir{
-  constructor(Img){ 
-    this.x=Math.floor((Math.random() * lc) + 1);
-    this.img=Img;
-    this.y=Math.floor((Math.random() * hc) + 1);
+class Tir {
+  constructor(x, y, l, h, vx, couleur) {
+    // on définit les propriétés qu'on veut avoir à la construction
+    this.x = x;
+    this.y = y;
+    this.l = l;
+    this.h = h;
+    this.vx = vx;
+    this.couleur = couleur;
   }
-    
-  draw(ctx,lien){
-    project.src=lien;
-    ctx.drawImage(project, 0, 0, 420, 225, this.x,this.y,100,300);
-  }    
+  
+  draw(ctx) {
+    ctx.fillStyle = this.couleur;
+    ctx.fillRect(this.x, this.y, this.l, this.h);
+  }
+  
+  move() {
+    this.x += this.vx*1;
+  }
+  
+  decrisToi() {
+    return "Je suis une étoile de couleur : " + this.couleur;
+  }
 }
 
-
+let tableauDesTirs = [];
+let joueur;
+  function tirer(n,joueur) {
+    for(let i = 0; i < n; i++) {
+      let x = tableauJoueurs[joueur].x; 
+      let y  = tableauJoueurs[joueur].y+50;
+      let l = 10;
+      let h = 5;
+      let vx = 10;
+      let c = "white";
+      let rect = new Tir(x, y, l, h, vx,c);   
+      tableauDesTirs.push(rect);
+    }
+  }
+  function dessinerLesTirs() {
+    tableauDesTirs.forEach((r) => {
+      r.draw(ctx);
+    })
+  }
+  
+  function deplacerLesTirs() {
+    tableauDesTirs.forEach((r) => {
+      r.move();
+    });
+  }
+  
+  function testeCollisionAvecMurs() {
+    tableauDesTirs.forEach((r) => {
+      if(((r.x+r.l) > lc) || (r.x < 0)) {
+        //Supprime
+      r.x = Math.random();
+      r.y  = Math.random() *hc;
+      }
+  });
+      
+  }
 /*function changerSkin()
 {
   j1.skin="https://myanimelist.cdn-dena.com/images/characters/3/307237.jpg";
 }*/
 
-function tirer(){
-  let newtir=new Tir("https://www.casimages.com/i/18111410532990265.png.html");
-  tableauTir.push(newtir);
-  afficherTir();
-}
+
 
 function genererProj() { 
   let newproj=new Projectile("http://benoit.montorsi.free.fr/fleche.png");
@@ -183,7 +228,7 @@ function afficherBarresVie() {
   // Permet de créer un rectangle (barre de vie) qui suit le personnage avec la position du joueur 2
 	rect2X = tableauJoueurs[1].x;
   rect2Y = tableauJoueurs[1].y-15;
-  
+
   /*-------JOUEUR--1/2-------*/
   // Création de la bordure de la barre de vie des deux joueurs
   ctx.strokeRect(rect1X,rect1Y,rect1Width,rect1Height);
@@ -213,6 +258,7 @@ function afficherBarresVie() {
   // Création de la barre de vie du joueur 1
   ctx.fillRect(rect1X,rect1Y,rect1Width,rect1Height);
   console.log(tableauJoueurs[1].vie);
+
   /*-------JOUEUR--2-------*/
   // Barre de vie du joueur 2 plus de 60 pv (vert)
   if (tableauJoueurs[1].vie<=100 &&tableauJoueurs[1].vie>60) {
@@ -242,6 +288,13 @@ function anime() {
   // 1 On efface le canvas
   ctx.clearRect(0, 0, lc, hc);
 
+    // 2 On dessine
+    dessinerLesTirs();
+
+    // 3 On change l'état (position, couleur, taille etc.)
+    deplacerLesTirs();
+  
+   // testeCollisionAvecMurs();
   // 2
   afficherBarresVie();
   afficherJoueurs();
