@@ -63,21 +63,10 @@ class Projectile {
     
   draw(ctx,lien) { 
     project.src=lien;
-    ctx.drawImage(project, 0, 0,this.x,this.y);
+    ctx.drawImage(project, this.x, this.y,100,150);
     }
   }
-class Tir{
-    constructor(Img){ 
-      this.x=Math.floor((Math.random() * lc) + 1);
-        this.img=Img;
-        this.y=Math.floor((Math.random() * hc) + 1);
-    }
-    
-    draw(ctx,lien){
-      project.src=lien;
-        ctx.drawImage(project, 0, 0, 420, 225, this.x,this.y,100,300);
-    }    
-}
+
 window.onload = function () {
     // Appelé quand la page est prête et a chargé
     // toutes ses ressources (images, vidéos etc.)
@@ -135,9 +124,7 @@ class Tir{
         ctx.drawImage(project, 0, 0, 420, 225, this.x,this.y,100,300);
     }    
 }
-function init() {
-	alert("oui");
-}
+
 
 /*function changerSkin()
 {
