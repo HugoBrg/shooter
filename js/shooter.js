@@ -46,6 +46,10 @@ class Joueur{
     this.y=newY;
     this.skin=Skin;
     this.vie=vie;
+    skinJoueur.src=this.skin;
+    console.log("skin.height : "+skinJoueur.height+" skin width : "+skinJoueur.width);
+    this.height=Math.round(skinJoueur.height/2);
+    this.width=Math.round(skinJoueur.width/2);
   }
     
   draw(ctx,skinPlayer) {  
@@ -156,6 +160,7 @@ function genererJoueurs() {
 }
 
 function afficherJoueurs() {
+  characterCollision(tableauJoueurs);
   tableauJoueurs.forEach((r) => {
     wallCollision(r,r.skin);
     r.draw(ctx,r.skin);   
@@ -177,36 +182,36 @@ function afficherBarresVie() {
   ctx.strokeRect(rect1X,rect1Y,rect1Width,rect1Height);
   ctx.strokeRect(rect2X,rect2Y,rect2Width,rect2Height);
     
-  console.log("----------------------");
+  //console.log("----------------------");
   if (tableauJoueurs[0].vie<=60 && tableauJoueurs[0].vie>30) {
-    console.log("vie jaune joueur1");
+    //console.log("vie jaune joueur1");
     color1 = 'yellow';
   }
   if (tableauJoueurs[0].vie<=30) {
-    console.log("vie rouge joueur1");
+    //console.log("vie rouge joueur1");
     color1 = 'red';
   }
   if (tableauJoueurs[0].vie<=100 &&tableauJoueurs[0].vie>60) {
-    console.log("vie verte joueur 1");
+    //console.log("vie verte joueur 1");
     color1 = 'green';
   }
   ctx.fillStyle = color1;
-  console.log(color1);
+  //console.log(color1);
   ctx.fillRect(rect1X,rect1Y,rect1Width,rect1Height);
   if (tableauJoueurs[1].vie<=60 && tableauJoueurs[0].vie>30) {
-    console.log("vie jaune joueur2");
+    //console.log("vie jaune joueur2");
     color2 = 'yellow';
   }
   if (tableauJoueurs[1].vie<=30) {
-    console.log("vie rouge joueur2");
+    //console.log("vie rouge joueur2");
     color2 = 'red';
   }
   if (tableauJoueurs[1].vie<=100 &&tableauJoueurs[0].vie>60) {
-    console.log("vie verte joueur2");
+    //console.log("vie verte joueur2");
     color2 = 'green';
   }
   ctx.fillStyle = color2;
-  console.log(color2);
+  //console.log(color2);
   ctx.fillRect(rect2X,rect2Y,rect2Width,rect2Height);  
 }
 
@@ -243,6 +248,27 @@ function wallCollision(r,skinPlayer){
   }
   else if(r.y < 0){
     r.y=hc;
+  }
+  ctx.restore();
+}
+
+function characterCollision(tableauJoueurs){
+  ctx.save();
+
+  if((tableauJoueurs[0].y + tableauJoueurs[0].height) < (tableauJoueurs[1].y)){
+    console.log("haut : "+tableauJoueurs[0].y+" + "+tableauJoueurs[0].height+" ("+(tableauJoueurs[0].y+tableauJoueurs[0].height)+") < "+tableauJoueurs[1].y);
+  }
+  
+  if(tableauJoueurs[0].y > (tableauJoueurs[1].y + tableauJoueurs[1].height)){
+    console.log("bas : "+tableauJoueurs[0].y+" > "+tableauJoueurs[1].y+" + "+tableauJoueurs[1].height+" ("+(tableauJoueurs[1].y+tableauJoueurs[1].height)+")");
+  }
+  
+  if((tableauJoueurs[0].x + tableauJoueurs[0].width) < tableauJoueurs[1].x){
+    console.log("gauche :"+tableauJoueurs[0].x+" + "+tableauJoueurs[0].width+" ("+(tableauJoueurs[0].x+tableauJoueurs[0].width)+") < "+tableauJoueurs[1].x);
+  }
+
+  if(tableauJoueurs[0].x > (tableauJoueurs[1].x + tableauJoueurs[1].width)){
+    console.log("droite : "+tableauJoueurs[0].y+" > "+tableauJoueurs[1].y+" + "+tableauJoueurs[1].height+" ("+(tableauJoueurs[1].y+tableauJoueurs[1].height)+")");
   }
   ctx.restore();
 }
