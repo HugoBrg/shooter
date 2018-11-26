@@ -18,7 +18,79 @@ let rect1X = 700;
 let rect1Y = 10;
 
 let test=0;
-//console.log("oui");
+var loadedAssets;
+
+var assetsToLoadURLs = {
+    background1: { url: 'https://s3-eu-west-1.amazonaws.com/friday-ad/uploads/image/16639301_16639400/dj-for-hire-london-m25-mobile-disco-with-pa-system-birthdays-office-parties-christmas-events-16639337-2_800X600.jpg?cdc151883cf63ea9' }, // http://www.clipartlord.com/category/weather-clip-art/winter-clip-art/
+    background2: { url: "http://scottdrobinson.com/sitebuilder/images/FLA09ACroppedB-735x556.jpg" },
+    background3: { url: "http://rodmanguitars.com/sitebuilder/images/P1150025-735x556.jpg" },
+    skin1: { url: "https://myanimelist.cdn-dena.com/images/characters/3/307237.jpg" },
+    proj1: { url: 'http://benoit.montorsi.free.fr/fleche.png' },
+    proj2: { url: 'https://www.casimages.com/i/18111410532990265.png.html' }
+};
+
+function loadAssets(callback) {
+    // here we should load the sounds, the sprite sheets etc.
+    // then at the end call the callback function           
+    loadAssetsUsingHowlerAndNoXhr(assetsToLoadURLs, callback);
+}
+
+function isImage(url) {
+    return (url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+}
+
+function isAudio(url) {
+    return (url.match(/\.(mp3|ogg|wav)$/) != null);
+}
+
+function loadAssetsUsingHowlerAndNoXhr(assetsToBeLoaded, callback) {
+    var assetsLoaded = {};
+    var loadedAssets = 0;
+    var numberOfAssetsToLoad = 0;
+
+    // define ifLoad function
+    var ifLoad = function () {
+        if (++loadedAssets >= numberOfAssetsToLoad) {
+            callback(assetsLoaded);
+        }
+        console.log("Loaded asset " + loadedAssets);
+    };
+
+    // get num of assets to load
+    for (var name in assetsToBeLoaded) {
+        numberOfAssetsToLoad++;
+    }
+
+    console.log("Nb assets to load: " + numberOfAssetsToLoad);
+
+    for (name in assetsToBeLoaded) {
+        var url = assetsToBeLoaded[name].url;
+        console.log("Loading " + url);
+        if (isImage(url)) {
+            assetsLoaded[name] = new Image();
+            assetsLoaded[name].onload = ifLoad;
+            // will start async loading. 
+            assetsLoaded[name].src = url;
+        } /*else {
+            // We assume the asset is an audio file
+            console.log("loading " + name + " buffer : " + assetsToBeLoaded[name].loop);
+            assetsLoaded[name] = new Howl({
+                urls: [url],
+                buffer: assetsToBeLoaded[name].buffer,
+                loop: assetsToBeLoaded[name].loop,
+                autoplay: false,
+                volume: assetsToBeLoaded[name].volume,
+                onload: function () {
+                    if (++loadedAssets >= numberOfAssetsToLoad) {
+                        callback(assetsLoaded);
+                    }
+                    console.log("Loaded asset " + loadedAssets);
+                }
+            }); // End of howler.js callback
+        } // if*/
+
+    } // for
+} // function
 
 
 function changeBg(val) {   
@@ -26,7 +98,7 @@ function changeBg(val) {
   span.innerHTML = val;
   switch(val){ 
     case '1': 
-      canvas.style.background='url(https://s3-eu-west-1.amazonaws.com/friday-ad/uploads/image/16639301_16639400/dj-for-hire-london-m25-mobile-disco-with-pa-system-birthdays-office-parties-christmas-events-16639337-2_800X600.jpg?cdc151883cf63ea9)'; 
+      canvas.style.background=loadedAssets.background1; 
       break;
     case '2': 
       canvas.style.background='url(https://wallpapercave.com/wp/XbmNalC.jpg)'; 
@@ -72,52 +144,61 @@ class Projectile {
   }
 
 window.onload = function () {
-  // Appelé quand la page est prête et a chargé
-  // toutes ses ressources (images, vidéos etc.)
-  console.log("pret")
-  lc = canvas.width;
-  hc = canvas.height;
+  init(); 
+}
+
+function init()
+{
+	console.log("loading assets");
+	 loadAssets(startShooter);
+}
+
+function startShooter(assetsReadyToBeUsed)
+{ 
+assetsCharges=assetsReadyToBeUsed;
+console.log("on est entrés dans la fonction");
+	 lc = canvas.width;
+    hc = canvas.height;
   genererJoueurs();
   document.addEventListener('keydown', function (event) { 
     switch (event.keyCode) {
       case 37:
-        tableauJoueurs[0].x-=vx;//gauche
-        break;
+            tableauJoueurs[0].x-=vx;//gauche
+            break;
       case 38:
-        tableauJoueurs[0].y-=vy;//haut
-        break;
-      case 39:
-        tableauJoueurs[0].x+=vx; //droite
-        break;
-      case 40:
-        tableauJoueurs[0].y+=vy; //bas
-        break;
-      case 81:
-        tableauJoueurs[1].x-=vx;//gauche
-        break;
-      case 90:
-        tableauJoueurs[1].y-=vy;//haut
-        break;
-      case 68:
-        tableauJoueurs[1].x+=vx; //droite
-        break;
-      case 83:
-        tableauJoueurs[1].y+=vy; //bas
-        break;
-      case 32:
-        // Tir du joueur 1
-        tirer(1,0); 
-        break;
-      case 65:
-        // Tir du joueur 2
-        tirer(1,1); 
-        break;        
+            tableauJoueurs[0].y-=vy;//haut
+              break;
+        case 39:
+                tableauJoueurs[0].x+=vx; //droite
+                break;
+        case 40:
+                tableauJoueurs[0].y+=vy; //bas
+                break;
+            case 81:
+                    tableauJoueurs[1].x-=vx;//gauche
+            break;
+            case 90:
+            tableauJoueurs[1].y-=vy;//haut
+              break;
+        case 68:
+                tableauJoueurs[1].x+=vx; //droite
+                break;
+        case 83:
+                tableauJoueurs[1].y+=vy; //bas
+                break;
+            case 32:
+                      console.log("Tir");
+                     tirer();
+                     break;
+            
+            
     }
   });
-  this.setInterval(genererProj, 2000); //générer une image de projectile à un endroit aléatoire toutes les 2s
+  this.setInterval(genererProj, 5000); //générer une image de projectile à un endroit aléatoire toutes les 2s
   // Pour animation à 60 im/s
   requestAnimationFrame(anime);
 }
+
 
 class Tir {
   constructor(x, y, l, h, vx, couleur) {
