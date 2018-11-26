@@ -21,12 +21,12 @@ let test=0;
 var loadedAssets;
 
 var assetsToLoadURLs = {
-    background1: { url: 'https://s3-eu-west-1.amazonaws.com/friday-ad/uploads/image/16639301_16639400/dj-for-hire-london-m25-mobile-disco-with-pa-system-birthdays-office-parties-christmas-events-16639337-2_800X600.jpg?cdc151883cf63ea9' }, // http://www.clipartlord.com/category/weather-clip-art/winter-clip-art/
-    background2: { url: "http://scottdrobinson.com/sitebuilder/images/FLA09ACroppedB-735x556.jpg" },
-    background3: { url: "http://rodmanguitars.com/sitebuilder/images/P1150025-735x556.jpg" },
-    skin1: { url: "https://myanimelist.cdn-dena.com/images/characters/3/307237.jpg" },
-    proj1: { url: 'http://benoit.montorsi.free.fr/fleche.png' },
-    proj2: { url: 'https://www.casimages.com/i/18111410532990265.png.html' }
+    background1: { url: 'assets/dj.jpg' }, // http://www.clipartlord.com/category/weather-clip-art/winter-clip-art/
+    background2: { url: "assets/FLA09ACroppedB-735x556.jpg" },
+    background3: { url: "assets/P1150025-735x556.jpg" },
+    skin1: { url: "assets/307237.jpg" },
+    proj1: { url: 'assets/fleche.png' },
+    proj2: { url: 'assets/laser.png' }
 };
 
 function loadAssets(callback) {
