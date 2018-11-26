@@ -281,8 +281,8 @@ function afficherProj() {
 }
 
 function genererJoueurs() { 
-  let j1=new Joueur(lc/2.5,100,"https://myanimelist.cdn-dena.com/images/characters/3/307237.jpg",10);
-  let j2=new Joueur(lc/2.5,300,"https://myanimelist.cdn-dena.com/images/characters/3/307237.jpg",50); 
+  let j1=new Joueur(lc/2.5,100,assetsCharges.skin1,10);
+  let j2=new Joueur(lc/2.5,300,assetsCharges.skin1,50); 
   tableauJoueurs.push(j1);
   tableauJoueurs.push(j2);  
 }
