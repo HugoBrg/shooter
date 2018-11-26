@@ -88,7 +88,6 @@ function loadAssetsUsingHowlerAndNoXhr(assetsToBeLoaded, callback) {
                 }
             }); // End of howler.js callback
         } // if*/
-
     } // for
 } // function
 
