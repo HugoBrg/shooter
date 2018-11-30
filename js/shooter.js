@@ -240,11 +240,11 @@ function afficherBarresVie() {
   ctx.strokeRect(rect2X,rect2Y,rect2Width,rect2Height);
 
   /*-------JOUEUR--1-------*/
-  console.log("----------------------");
-  console.log(tableauJoueurs[0].vie);
+  //console.log("----------------------");
+  //console.log(tableauJoueurs[0].vie);
   // Barre de vie du joueur 1 plus de 60 pv (vert)
   if (tableauJoueurs[0].vie<=100 &&tableauJoueurs[0].vie>60) {
-    console.log("vie verte joueur 1");
+    //console.log("vie verte joueur 1");
     color1 = 'green';
   }
   // Barre de vie du joueur 1 entre 30 pv et 60 pv (jaune)
@@ -259,21 +259,21 @@ function afficherBarresVie() {
   }
   // On ajoute la bonne couleur au contexte
   ctx.fillStyle = color1;
-  console.log(color1);
+  //console.log(color1);
   // Création de la barre de vie du joueur 1
   ctx.fillRect(rect1X,rect1Y,rect1Width,rect1Height);
-  console.log(tableauJoueurs[1].vie);
+  //console.log(tableauJoueurs[1].vie);
 
   /*-------JOUEUR--2-------*/
   // Barre de vie du joueur 2 plus de 60 pv (vert)
   if (tableauJoueurs[1].vie<=100 &&tableauJoueurs[1].vie>60) {
-    console.log("vie verte joueur2");
+    //console.log("vie verte joueur2");
     color2 = 'green';
   }
   
   // Barre de vie du joueur 2 entre 30 pv et 60 pv (jaune)
   if (tableauJoueurs[1].vie<=60 && tableauJoueurs[1].vie>30) {
-    console.log("vie jaune joueur2");
+    //console.log("vie jaune joueur2");
     color2 = 'yellow';
   }
   // Barre de vie du joueur 2 moins de 30 pv (rouge)
@@ -283,7 +283,7 @@ function afficherBarresVie() {
   }
   // On ajoute la bonne couleur au contexte
   ctx.fillStyle = color2;
-  console.log(color2);
+  //console.log(color2);
   // Création de la barre de vie du joueur 2
   ctx.fillRect(rect2X,rect2Y,rect2Width,rect2Height);
   
@@ -315,9 +315,9 @@ function wallCollision(r,skinPlayer){
   skinJoueur.src=skinPlayer;
   //(Math.round(r.x)+Math.round(skinJoueur.width/2))
   if(r.x > lc){
-    console.log(lc);
-    console.log(Math.round(skinJoueur.width/2));
-    console.log(Math.round(r.x));
+    //console.log(lc);
+    //console.log(Math.round(skinJoueur.width/2));
+    //console.log(Math.round(r.x));
     r.x=0;
   }
   else if(r.x < 0){
@@ -347,7 +347,7 @@ function characterCollision(tableauJoueurs){
     console.log("gauche :"+tableauJoueurs[0].x+" + "+tableauJoueurs[0].width+" ("+(tableauJoueurs[0].x+tableauJoueurs[0].width)+") < "+tableauJoueurs[1].x);
   }
 
-  if(tableauJoueurs[0].x > (tableauJoueurs[1].x + tableauJoueurs[1].width)){
+  if((tableauJoueurs[0].x > (tableauJoueurs[1].x + tableauJoueurs[1].width))){
     console.log("droite : "+tableauJoueurs[0].y+" > "+tableauJoueurs[1].y+" + "+tableauJoueurs[1].height+" ("+(tableauJoueurs[1].y+tableauJoueurs[1].height)+")");
   }
   ctx.restore();
