@@ -124,8 +124,8 @@ class Joueur{
   }
     
   draw(ctx,skinPlayer) {  
-    skinJoueur.src=skinPlayer;
-    ctx.drawImage(skinJoueur, 0, 0,420, 225, this.x,this.y,Math.round(skinJoueur.height/2),Math.round(skinJoueur.width/2));
+   
+    ctx.drawImage(assetsCharges.skin1, 0, 0,420, 225, this.x,this.y,Math.round(skinJoueur.height/2),Math.round(skinJoueur.width/2));
   }    
 }
 
@@ -392,7 +392,7 @@ function anime() {
 
 function wallCollision(r,skinPlayer){
   ctx.save();
-  skinJoueur.src=skinPlayer;
+ // skinJoueur.src=skinPlayer;
   //(Math.round(r.x)+Math.round(skinJoueur.width/2))
   if(r.x > lc){
     //console.log(lc);
