@@ -1,4 +1,4 @@
-let canvas = document.querySelector("#myCanvas");
+let canvas = document.querySelector("#canvasJeu");
 let ctx= canvas.getContext("2d");
 
 let lc;
@@ -7,7 +7,7 @@ let vx=10;
 let vy=10;
 let skinJoueur=new Image();
 let project=new Image();
-
+let nbBG;
 let tableauJoueurs=[];
 let tableauProj=[];
 let tableauTir=[];
@@ -96,23 +96,12 @@ function loadAssetsUsingHowlerAndNoXhr(assetsToBeLoaded, callback) {
 } // function
 
 
-function changeBg(val) {   
+function changeValeurBG(val) {   
 
   let span = document.querySelector("#val");
   span.innerHTML = val;
-  switch(val){ 
-    case '1': 
-     ctx.drawImage(assetsCharges.background1,0,0,canvas.width,canvas.height);
-      break;
-    case '2': 
-      ctx.drawImage(assetsCharges.background2,0,0,canvas.width,canvas.height);
-      break;
-    case '3': 
-      ctx.drawImage(assetsCharges.background3,0,0,canvas.width,canvas.height);
-      break;
-    default: 
-      break;
-    }
+  nbBG=val;
+  
 }
 class Joueur {
   constructor(x, y, angle, vitesse, vie, tempsMinEntreTirsEnMillisecondes) {
@@ -526,6 +515,21 @@ let angle=0;
 function anime() {
   // 1 On efface le canvas
   ctx.clearRect(0, 0, lc, hc);
+	// 2 On regarde quel background on doit afficher
+  switch(nbBG){ 
+    case '1': 
+     ctx.drawImage(assetsCharges.background1,0,0,canvas.width,canvas.height);
+      break;
+    case '2': 
+      ctx.drawImage(assetsCharges.background2,0,0,canvas.width,canvas.height);
+      break;
+    case '3': 
+      ctx.drawImage(assetsCharges.background3,0,0,canvas.width,canvas.height);
+      break;
+    default: 
+      break;
+    }
+	
 /*
     // 2 On dessine
     dessinerLesTirs();
