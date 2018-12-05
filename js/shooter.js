@@ -304,12 +304,14 @@ console.log("on est entrés dans la fonction");
   window.addEventListener('keydown', function(evt) {
     if(event.keyCode==32){
       inputStates.SPACE = true;
+      this.console.log("tir");
     }
   });
   
   window.addEventListener('keyup', function(evt) {
-    
-    inputStates.SPACE = false;
+    if(event.keyCode==32){
+      inputStates.SPACE = false;
+    }
   });
   
     window.addEventListener('keydown', function (event) { 
