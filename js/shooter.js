@@ -117,14 +117,13 @@ class Joueur{
     this.x=newX;
     this.y=newY;
     this.vie=vie;
-   
-    console.log("skin.height : "+skinJoueur.height+" skin width : "+skinJoueur.width);
-    this.height=Math.round(skinJoueur.height/2);
-    this.width=Math.round(skinJoueur.width/2);
+    this.height=assetsCharges.skin1.height/2;
+    this.width=assetsCharges.skin1.width/2;
+    console.log("skin.height : "+this.height+" skin width : "+this.width);
   }
     
   draw(ctx) {  
-    ctx.drawImage(assetsCharges.skin1, this.x, this.y,100, 120);
+    ctx.drawImage(assetsCharges.skin1, this.x, this.y,assetsCharges.skin1.width/2, assetsCharges.skin1.height/2);
   }   
 }
 
@@ -236,23 +235,23 @@ let joueur;
     }
   }
   function dessinerLesTirs() {
-    tableauDesTirs.forEach((r) => {
-      r.draw(ctx);
+    tableauDesTirs.forEach((joueur) => {
+      joueur.draw(ctx);
     })
   }
   
   function deplacerLesTirs() {
-    tableauDesTirs.forEach((r) => {
-      r.move();
+    tableauDesTirs.forEach((joueur) => {
+      joueur.move();
     });
   }
   
   function testeCollisionAvecMurs() {
-    tableauDesTirs.forEach((r) => {
-      if(((r.x+r.l) > lc) || (r.x < 0)) {
+    tableauDesTirs.forEach((joueur) => {
+      if(((joueur.x+joueur.l) > lc) || (joueur.x < 0)) {
         //Supprime
-      r.x = Math.random();
-      r.y  = Math.random() *hc;
+      joueur.x = Math.random();
+      joueur.y  = Math.random() *hc;
       }
   });
       
@@ -265,8 +264,8 @@ function genererProj() {
 }
 
 function afficherProj() {  
-  tableauProj.forEach((r) => {
-    r.draw(ctx);
+  tableauProj.forEach((joueur) => {
+    joueur.draw(ctx);
   }) 
 
 }
@@ -279,10 +278,10 @@ function genererJoueurs() {
 }
 
 function afficherJoueurs() {
-  //characterCollision(tableauJoueurs);
-  tableauJoueurs.forEach((r) => {
-   // wallCollision(r,r.skin);
-    r.draw(ctx);   
+  characterCollision(tableauJoueurs);
+  tableauJoueurs.forEach((joueur) => {
+    wallCollision(joueur,joueur.skin);
+    joueur.draw(ctx);   
 
   })
 }
@@ -381,24 +380,19 @@ function anime() {
   requestAnimationFrame(anime);
 }
 
-function wallCollision(r,skinPlayer){
+function wallCollision(joueur){
   ctx.save();
- // skinJoueur.src=skinPlayer;
-  //(Math.round(r.x)+Math.round(skinJoueur.width/2))
-  if(r.x > lc){
-    //console.log(lc);
-    //console.log(Math.round(skinJoueur.width/2));
-    //console.log(Math.round(r.x));
-    r.x=0;
+  if(joueur.x + joueur.width> lc){
+    joueur.x=0;
   }
-  else if(r.x < 0){
-    r.x=lc;
+  else if(joueur.x < 0){
+    joueur.x=lc-joueur.width;
   }
-  else if(r.y > hc){
-    r.y=0;
+  else if(joueur.y + joueur.height > hc){
+    joueur.y=0;
   }
-  else if(r.y < 0){
-    r.y=hc;
+  else if(joueur.y < 0){
+    joueur.y=hc-joueur.height;
   }
   ctx.restore();
 }
@@ -406,20 +400,31 @@ function wallCollision(r,skinPlayer){
 function characterCollision(tableauJoueurs){
   ctx.save();
 
-  if((tableauJoueurs[0].y + tableauJoueurs[0].height) < (tableauJoueurs[1].y)){
-    console.log("haut : "+tableauJoueurs[0].y+" + "+tableauJoueurs[0].height+" ("+(tableauJoueurs[0].y+tableauJoueurs[0].height)+") < "+tableauJoueurs[1].y);
-  }
-  
-  if(tableauJoueurs[0].y > (tableauJoueurs[1].y + tableauJoueurs[1].height)){
-    console.log("bas : "+tableauJoueurs[0].y+" > "+tableauJoueurs[1].y+" + "+tableauJoueurs[1].height+" ("+(tableauJoueurs[1].y+tableauJoueurs[1].height)+")");
-  }
-  
-  if((tableauJoueurs[0].x + tableauJoueurs[0].width) < tableauJoueurs[1].x){
-    console.log("gauche :"+tableauJoueurs[0].x+" + "+tableauJoueurs[0].width+" ("+(tableauJoueurs[0].x+tableauJoueurs[0].width)+") < "+tableauJoueurs[1].x);
-  }
+  ctx.beginPath();
+  ctx.moveTo(tableauJoueurs[0].x,tableauJoueurs[0].y);
+  ctx.lineTo(tableauJoueurs[0].x+tableauJoueurs[0].width,tableauJoueurs[0].y);
+  ctx.lineTo(tableauJoueurs[0].x+tableauJoueurs[0].width,tableauJoueurs[0].y+tableauJoueurs[0].height);
+  ctx.lineTo(tableauJoueurs[0].x,tableauJoueurs[0].y+tableauJoueurs[0].height);
+  ctx.lineTo(tableauJoueurs[0].x,tableauJoueurs[0].y);
+  ctx.stroke();
 
-  if((tableauJoueurs[0].x > (tableauJoueurs[1].x + tableauJoueurs[1].width))){
-    console.log("droite : "+tableauJoueurs[0].y+" > "+tableauJoueurs[1].y+" + "+tableauJoueurs[1].height+" ("+(tableauJoueurs[1].y+tableauJoueurs[1].height)+")");
-  }
+  ctx.beginPath();
+  ctx.moveTo(tableauJoueurs[1].x,tableauJoueurs[1].y);
+  ctx.lineTo(tableauJoueurs[1].x+tableauJoueurs[1].width,tableauJoueurs[1].y);
+  ctx.lineTo(tableauJoueurs[1].x+tableauJoueurs[1].width,tableauJoueurs[1].y+tableauJoueurs[1].height);
+  ctx.lineTo(tableauJoueurs[1].x,tableauJoueurs[1].y+tableauJoueurs[1].height);
+  ctx.lineTo(tableauJoueurs[1].x,tableauJoueurs[1].y);
+  ctx.stroke();
+
+  if (tableauJoueurs[0].x < tableauJoueurs[1].x + tableauJoueurs[1].width &&
+    tableauJoueurs[0].x + tableauJoueurs[0].width > tableauJoueurs[1].x &&
+    tableauJoueurs[0].y < tableauJoueurs[1].y + tableauJoueurs[1].height &&
+    tableauJoueurs[0].height + tableauJoueurs[0].y > tableauJoueurs[1].y) {
+      ctx.globalAlpha = 0.2;
+      ctx.fillStyle = "red";
+      ctx.fillRect(tableauJoueurs[0].x-10,tableauJoueurs[0].y-10,tableauJoueurs[0].width+20,tableauJoueurs[0].height+20);
+      ctx.fillRect(tableauJoueurs[1].x-10,tableauJoueurs[1].y-10,tableauJoueurs[1].width+20,tableauJoueurs[1].height+20);
+      ctx.globalAlpha = 1.0;
+ }
   ctx.restore();
 }
