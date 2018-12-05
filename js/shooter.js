@@ -19,7 +19,11 @@ let rect1Y = 10;
 
 let test=0;
 var loadedAssets;
-
+var joueur1;
+var mousepos = { x: 0, y: 0 };
+var inputStates = {};
+let x=0;
+let y=0;
 var assetsToLoadURLs = {
     background1: { url: 'assets/dj.jpg' }, // http://www.clipartlord.com/category/weather-clip-art/winter-clip-art/
     background2: { url: "assets/FLA09ACroppedB-735x556.jpg" },
@@ -110,8 +114,115 @@ function changeBg(val) {
       break;
     }
 }
+class Joueur {
+  constructor(x, y, angle, vitesse, vie, tempsMinEntreTirsEnMillisecondes) {
+    this.x = x;
+    this.y = y;
+    this.angle = angle;
+    this.v = vitesse;
+    this.vie = vie;
+    this.bullets = [];
+    // cadenceTir en millisecondes = temps min entre tirs
+    this.delayMinBetweenBullets = tempsMinEntreTirsEnMillisecondes;
+  }
+  
+  draw(ctx) {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    ctx.translate(-10, -10);
+    
+    // corps
+    ctx.fillRect(0, 0, 20, 20);
+    // canon
+    //ctx.fillRect(-10, 9, 10, 2);
+    
+    ctx.restore();
+    
+    this.drawBullets(ctx);
 
+  }
+  
+  drawBullets(ctx) {
+    for(let i = 0; i < this.bullets.length; i++) {
+      let b = this.bullets[i];
+      b.draw(ctx);
+      b.move(); 
+      if ((b.x < 0) || (b.y < 0) || (b.x > lc) || (b.y > hc))
+            this.removeBullet(b)
 
+    }
+  }
+  /*
+  move(mousepos) {
+        // 2) On dÃ©place la balle 
+    let dx = this.x - mousepos.x;
+    let dy = this.y - mousepos.y;
+    this.angle = Math.atan2(dy, dx);
+    
+    if (distance(this.x, this.y, mousepos.x, mousepos.y) >= 10) {
+        //ball.v = 0;
+        this.x -= this.v * Math.cos(this.angle);
+        this.y -= this.v * Math.sin(this.angle);
+    }
+  }
+  */
+   move(x,y,angle) {
+        // 2) On dÃ©place la balle 
+    this.x += x;
+    this.y += y;
+    this.angle = angle;
+    /*
+    if (distance(this.x, this.y, mousepos.x, mousepos.y) >= 100) {
+        //ball.v = 0;
+        this.x -= this.v * Math.cos(this.angle);
+        this.y -= this.v * Math.sin(this.angle);
+    }*/
+  }
+   addBullet(time) {
+     // si le temps écoulé depuis le dernier tir est > temps max alors on tire
+     var tempEcoule=0;
+     
+     if(this.lastBulletTime !== undefined) {
+       tempEcoule = time - this.lastBulletTime;
+       //console.log("temps écoulé = " + tempEcoule);
+     }
+     
+     if((this.lastBulletTime === undefined) || (tempEcoule> this.delayMinBetweenBullets)) {
+        this.bullets.push(new Bullet(this));
+        // on mémorise le dernier temps.
+        this.lastBulletTime = time;
+     }
+   }
+
+   removeBullet(bullet) {
+        let position = this.bullets.indexOf(bullet);
+        this.bullets.splice(position, 1);
+    }
+}
+
+class Bullet {
+    constructor(joueur1) {
+        this.x = joueur1.x;
+        this.y = joueur1.y;
+        this.angle = joueur1.angle;
+    }
+
+    draw(ctx) {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.fillRect(0, 0, 10, 2);
+        ctx.restore();
+    }
+
+  
+    move(maxX, maxY) {
+        this.x -= 10 * Math.cos(this.angle);
+        this.y -= 10 * Math.sin(this.angle);
+    }
+}
+/*
 class Joueur{
   constructor(newX,newY, vie){
     this.x=newX;
@@ -138,7 +249,7 @@ class Projectile {
     ctx.drawImage(assetsCharges.proj2, this.x, this.y,100,150);
     }
   }
-
+*/
 window.onload = function () {
   init(); 
 }
@@ -155,7 +266,7 @@ assetsCharges=assetsReadyToBeUsed;
 console.log("on est entrés dans la fonction");
 	 lc = canvas.width;
     hc = canvas.height;
-  genererJoueurs();
+  /*genererJoueurs();
   document.addEventListener('keydown', function (event) { 
     switch (event.keyCode) {
       case 37:
@@ -189,13 +300,61 @@ console.log("on est entrés dans la fonction");
             
             
     }
+  });*/
+  joueur1 = new Joueur(100, 100, 4.75, 2, 100);
+  window.addEventListener('keydown', function(evt) {
+    if(event.keyCode==32){
+      inputStates.SPACE = true;
+    }
   });
-  this.setInterval(genererProj, 5000); //générer une image de projectile à un endroit aléatoire toutes les 2s
+  
+  window.addEventListener('keyup', function(evt) {
+    
+    inputStates.SPACE = false;
+  });
+  
+    window.addEventListener('keydown', function (event) { 
+    switch (event.keyCode) {
+      case 37:
+            console.log("gauche");
+            x=-20;//gauche
+            angle=0;
+            break;
+      case 38:
+            console.log("haut");
+            y=-20;//haut
+            angle = 1.55;
+             break;
+      case 39:
+            console.log("droite");
+            x=20; //droite
+            angle = 3.15;
+            break;
+      case 40:
+            console.log("bas");
+            y=20; //bas
+            angle = 4.70;
+            break;/*
+      case 81:
+            tableauJoueurs[1].x-=vx;//gauche
+            break;
+      case 90:
+            tableauJoueurs[1].y-=vy;//haut
+            break;
+      case 68:
+            tableauJoueurs[1].x+=vx; //droite
+            break;
+      case 83:
+            tableauJoueurs[1].y+=vy; //bas
+            break; */           
+    }
+  });
+  //this.setInterval(genererProj, 5000); //générer une image de projectile à un endroit aléatoire toutes les 2s
   // Pour animation à 60 im/s
   requestAnimationFrame(anime);
 }
 
-
+/*
 class Tir {
   constructor(x, y, l, h, vx, couleur) {
     // on définit les propriétés qu'on veut avoir à la construction
@@ -286,45 +445,47 @@ function afficherJoueurs() {
 
   })
 }
+*/
 
 function afficherBarresVie() {
   /*-------JOUEUR--1-------*/
+  ctx.save()
   // Hauteur barre de vie joueur 1
   rect1Height = 10;
   // Largeur barre de vie joueur 1
-  rect1Width = tableauJoueurs[0].vie;
+  rect1Width = joueur1.vie;
   // Permet de créer un rectangle (barre de vie) qui suit le personnage avec la position du joueur 1
-	rect1X = tableauJoueurs[0].x;
-  rect1Y = tableauJoueurs[0].y-15;
+	rect1X = joueur1.x-45;
+  rect1Y = joueur1.y-25;
   /*-------JOUEUR--2-------*/
   // Hauteur barre de vie joueur 2
   rect2Height = 10;
   // Largeur barre de vie joueur 2
-  rect2Width = tableauJoueurs[1].vie;
+  //rect2Width = tableauJoueurs[1].vie;
   // Permet de créer un rectangle (barre de vie) qui suit le personnage avec la position du joueur 2
-	rect2X = tableauJoueurs[1].x;
-  rect2Y = tableauJoueurs[1].y-15;
+	//rect2X = tableauJoueurs[1].x;
+  //rect2Y = tableauJoueurs[1].y-15;
 
   /*-------JOUEUR--1/2-------*/
   // Création de la bordure de la barre de vie des deux joueurs
   ctx.strokeRect(rect1X,rect1Y,rect1Width,rect1Height);
-  ctx.strokeRect(rect2X,rect2Y,rect2Width,rect2Height);
+  //ctx.strokeRect(rect2X,rect2Y,rect2Width,rect2Height);
 
   /*-------JOUEUR--1-------*/
   //console.log("----------------------");
   //console.log(tableauJoueurs[0].vie);
   // Barre de vie du joueur 1 plus de 60 pv (vert)
-  if (tableauJoueurs[0].vie<=100 &&tableauJoueurs[0].vie>60) {
+  if (joueur1.vie<=100 &&joueur1.vie>60) {
     //console.log("vie verte joueur 1");
     color1 = 'green';
   }
   // Barre de vie du joueur 1 entre 30 pv et 60 pv (jaune)
-  if (tableauJoueurs[0].vie<=60 && tableauJoueurs[0].vie>30) {
+  if (joueur1.vie<=60 && joueur1.vie>30) {
     //console.log("vie jaune joueur1");
     color1 = 'yellow';
   }
   // Barre de vie du joueur 1 moins de 30 pv (rouge)
-  if (tableauJoueurs[0].vie<=30) {
+  if (joueur1.vie<=30) {
     //console.log("vie rouge joueur1");
     color1 = 'red';
   }
@@ -333,9 +494,10 @@ function afficherBarresVie() {
   //console.log(color1);
   // Création de la barre de vie du joueur 1
   ctx.fillRect(rect1X,rect1Y,rect1Width,rect1Height);
+  ctx.restore();
   //console.log(tableauJoueurs[1].vie);
 
-  /*-------JOUEUR--2-------*/
+  /*-------JOUEUR--2-------*//*
   // Barre de vie du joueur 2 plus de 60 pv (vert)
   if (tableauJoueurs[1].vie<=100 &&tableauJoueurs[1].vie>60) {
     //console.log("vie verte joueur2");
@@ -357,13 +519,13 @@ function afficherBarresVie() {
   //console.log(color2);
   // Création de la barre de vie du joueur 2
   ctx.fillRect(rect2X,rect2Y,rect2Width,rect2Height);
-  
+  */
 }
-
+let angle=0;
 function anime() {
   // 1 On efface le canvas
   ctx.clearRect(0, 0, lc, hc);
-
+/*
     // 2 On dessine
     dessinerLesTirs();
 
@@ -371,9 +533,22 @@ function anime() {
     deplacerLesTirs();
   
    // testeCollisionAvecMurs();
-  // 2
+  // 2*/
+  // 2) On dessine et on déplace le char 1
+  joueur1.draw(ctx);
+
+ joueur1.move(x,y,angle);
+  x=0;
+  y=0;
+ // char2.draw(ctx);
+ //char2.move(mousepos);
+
+if(inputStates.SPACE) {
+  joueur1.addBullet(Date.now());
+  //char2.addBullet(Date.now()); 
+}
   afficherBarresVie();
-  afficherJoueurs();
+ // afficherJoueurs();
   //afficherProj();
   // 3
   // 4 on demande au browser de rappeler la fonction
