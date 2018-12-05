@@ -16,6 +16,8 @@ let rect1Height = 50;
 let rect1Width = 100;
 let rect1X = 700;
 let rect1Y = 10;
+let width;
+let height;
 
 let test=0;
 var loadedAssets;
@@ -104,13 +106,15 @@ function changeValeurBG(val) {
   
 }
 class Joueur {
-  constructor(x, y, angle, vitesse, vie, tempsMinEntreTirsEnMillisecondes) {
+  constructor(x, y, angle, vitesse, vie, tempsMinEntreTirsEnMillisecondes,width,height) {
     this.x = x;
     this.y = y;
     this.angle = angle;
     this.v = vitesse;
     this.vie = vie;
     this.bullets = [];
+    this.width=width;
+    this.height=height;
     // cadenceTir en millisecondes = temps min entre tirs
     this.delayMinBetweenBullets = tempsMinEntreTirsEnMillisecondes;
   }
@@ -122,7 +126,7 @@ class Joueur {
     ctx.translate(-10, -10);
     
     // corps
-    ctx.fillRect(0, 0, 20, 20);
+    ctx.fillRect(0, 0, this.width, this.height);
     // canon
     //ctx.fillRect(-10, 9, 10, 2);
     
@@ -245,15 +249,15 @@ window.onload = function () {
 function init()
 {
 	console.log("loading assets");
-	 loadAssets(startShooter);
+	loadAssets(startShooter);
 }
 
 function startShooter(assetsReadyToBeUsed)
 { 
 assetsCharges=assetsReadyToBeUsed;
 console.log("on est entrés dans la fonction");
-	 lc = canvas.width;
-    hc = canvas.height;
+	lc = canvas.width;
+  hc = canvas.height;
   /*genererJoueurs();
   document.addEventListener('keydown', function (event) { 
     switch (event.keyCode) {
@@ -289,7 +293,7 @@ console.log("on est entrés dans la fonction");
             
     }
   });*/
-  joueur1 = new Joueur(100, 100, 4.75, 2, 100);
+  joueur1 = new Joueur(100, 100, 4.75, 2, 100,20,20,20);
   window.addEventListener('keydown', function(evt) {
     if(event.keyCode==32){
       inputStates.SPACE = true;
@@ -511,6 +515,8 @@ function afficherBarresVie() {
 }
 let angle=0;
 function anime() {
+  wallCollision(joueur1);
+  //characterCollision(joueur1,joueur2);
   // 1 On efface le canvas
   ctx.clearRect(0, 0, lc, hc);
 	// 2 On regarde quel background on doit afficher
