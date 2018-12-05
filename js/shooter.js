@@ -1,4 +1,4 @@
-let canvas = document.querySelector("#myCanvas");
+let canvas = document.querySelector("#canvasJeu");
 let ctx= canvas.getContext("2d");
 
 let lc;
