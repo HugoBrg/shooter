@@ -118,9 +118,10 @@ class Joueur{
     this.skin=Skin;
     this.vie=vie;
     skinJoueur.src=this.skin;
-    console.log("skin.height : "+skinJoueur.height+" skin width : "+skinJoueur.width);
+    console.log("1 : skin.height : "+skinJoueur.height+" skin width : "+skinJoueur.width);
     this.height=Math.round(skinJoueur.height/2);
     this.width=Math.round(skinJoueur.width/2);
+    console.log("2 : skin.height : "+this.height+" skin width : "+this.width);
   }
     
   draw(ctx,skinPlayer) {  
@@ -415,7 +416,13 @@ function wallCollision(r,skinPlayer){
 function characterCollision(tableauJoueurs){
   ctx.save();
 
-  if((tableauJoueurs[0].y + tableauJoueurs[0].height) < (tableauJoueurs[1].y)){
+  /*ctx.beginPath();
+  ctx.moveTo(tableauJoueurs[0].x,tableauJoueurs[0].y);
+  console.log(tableauJoueurs[0].width);
+  ctx.lineTo(tableauJoueurs[0].y,tableauJoueurs[0].y);
+  ctx.stroke();*/
+  
+  /*if((tableauJoueurs[0].y + tableauJoueurs[0].height) < (tableauJoueurs[1].y)){
     console.log("haut : "+tableauJoueurs[0].y+" + "+tableauJoueurs[0].height+" ("+(tableauJoueurs[0].y+tableauJoueurs[0].height)+") < "+tableauJoueurs[1].y);
   }
   
@@ -430,5 +437,5 @@ function characterCollision(tableauJoueurs){
   if((tableauJoueurs[0].x > (tableauJoueurs[1].x + tableauJoueurs[1].width))){
     console.log("droite : "+tableauJoueurs[0].y+" > "+tableauJoueurs[1].y+" + "+tableauJoueurs[1].height+" ("+(tableauJoueurs[1].y+tableauJoueurs[1].height)+")");
   }
-  ctx.restore();
+  ctx.restore();*/
 }
