@@ -71,7 +71,7 @@ function loadAssetsUsingHowlerAndNoXhr(assetsToBeLoaded, callback) {
             assetsLoaded[name].onload = ifLoad;
             // will start async loading. 
             assetsLoaded[name].src = url;
-        } /*else {
+        } else {
             // We assume the asset is an audio file
             console.log("loading " + name + " buffer : " + assetsToBeLoaded[name].loop);
             assetsLoaded[name] = new Howl({
@@ -87,23 +87,24 @@ function loadAssetsUsingHowlerAndNoXhr(assetsToBeLoaded, callback) {
                     console.log("Loaded asset " + loadedAssets);
                 }
             }); // End of howler.js callback
-        } // if*/
+        } // if
     } // for
 } // function
 
 
 function changeBg(val) {   
+
   let span = document.querySelector("#val");
   span.innerHTML = val;
   switch(val){ 
     case '1': 
-      canvas.style.background=loadedAssets.background1; 
+     ctx.drawImage(assetsCharges.background1,0,0,canvas.width,canvas.height);
       break;
     case '2': 
-      canvas.style.background='url(https://wallpapercave.com/wp/XbmNalC.jpg)'; 
+      ctx.drawImage(assetsCharges.background2,0,0,canvas.width,canvas.height);
       break;
     case '3': 
-      canvas.style.background='url(http://www.linuxcmd.org/lcshow/small/23/239344_dbz-gohan-wallpaper.jpg)'; 
+      ctx.drawImage(assetsCharges.background3,0,0,canvas.width,canvas.height);
       break;
     default: 
       break;
@@ -112,34 +113,29 @@ function changeBg(val) {
 
 
 class Joueur{
-  constructor(newX,newY, Skin, vie){
+  constructor(newX,newY, vie){
     this.x=newX;
     this.y=newY;
-    this.skin=Skin;
     this.vie=vie;
-    skinJoueur.src=this.skin;
-    console.log("1 : skin.height : "+skinJoueur.height+" skin width : "+skinJoueur.width);
+   
+    console.log("skin.height : "+skinJoueur.height+" skin width : "+skinJoueur.width);
     this.height=Math.round(skinJoueur.height/2);
     this.width=Math.round(skinJoueur.width/2);
-    console.log("2 : skin.height : "+this.height+" skin width : "+this.width);
   }
     
-  draw(ctx,skinPlayer) {  
-   
-    ctx.drawImage(assetsCharges.skin1, 0, 0,420, 225, this.x,this.y,Math.round(skinJoueur.height/2),Math.round(skinJoueur.width/2));
-  }    
+  draw(ctx) {  
+    ctx.drawImage(assetsCharges.skin1, this.x, this.y,100, 120);
+  }   
 }
 
 class Projectile {
-  constructor(Img){ 
+  constructor(){ 
     this.x=Math.floor((Math.random() * lc) + 1);
-    this.img=Img;
     this.y=Math.floor((Math.random() * hc) + 1);
   }
     
-  draw(ctx,lien) { 
-    project.src=lien;
-    ctx.drawImage(project, this.x, this.y,100,150);
+  draw(ctx) { 
+    ctx.drawImage(assetsCharges.proj2, this.x, this.y,100,150);
     }
   }
 
@@ -261,38 +257,32 @@ let joueur;
   });
       
   }
-/*function changerSkin()
-{
-  j1.skin="https://myanimelist.cdn-dena.com/images/characters/3/307237.jpg";
-}*/
-
-
 
 function genererProj() { 
-  let newproj=new Projectile("http://benoit.montorsi.free.fr/fleche.png");
+  let newproj=new Projectile();
   tableauProj.push(newproj);
-  afficherProj();
+
 }
 
 function afficherProj() {  
   tableauProj.forEach((r) => {
-    r.draw(ctx,r.img);
+    r.draw(ctx);
   }) 
 
 }
 
 function genererJoueurs() { 
-  let j1=new Joueur(lc/2.5,100,assetsCharges.skin1,10);
-  let j2=new Joueur(lc/2.5,300,assetsCharges.skin1,50); 
+  let j1=new Joueur(lc/2.5,100,10);
+  let j2=new Joueur(lc/2.5,300,50); 
   tableauJoueurs.push(j1);
   tableauJoueurs.push(j2);  
 }
 
 function afficherJoueurs() {
-  characterCollision(tableauJoueurs);
+  //characterCollision(tableauJoueurs);
   tableauJoueurs.forEach((r) => {
-    wallCollision(r,r.skin);
-    r.draw(ctx,r.skin);   
+   // wallCollision(r,r.skin);
+    r.draw(ctx);   
 
   })
 }
@@ -416,13 +406,7 @@ function wallCollision(r,skinPlayer){
 function characterCollision(tableauJoueurs){
   ctx.save();
 
-  /*ctx.beginPath();
-  ctx.moveTo(tableauJoueurs[0].x,tableauJoueurs[0].y);
-  console.log(tableauJoueurs[0].width);
-  ctx.lineTo(tableauJoueurs[0].y,tableauJoueurs[0].y);
-  ctx.stroke();*/
-  
-  /*if((tableauJoueurs[0].y + tableauJoueurs[0].height) < (tableauJoueurs[1].y)){
+  if((tableauJoueurs[0].y + tableauJoueurs[0].height) < (tableauJoueurs[1].y)){
     console.log("haut : "+tableauJoueurs[0].y+" + "+tableauJoueurs[0].height+" ("+(tableauJoueurs[0].y+tableauJoueurs[0].height)+") < "+tableauJoueurs[1].y);
   }
   
@@ -437,5 +421,5 @@ function characterCollision(tableauJoueurs){
   if((tableauJoueurs[0].x > (tableauJoueurs[1].x + tableauJoueurs[1].width))){
     console.log("droite : "+tableauJoueurs[0].y+" > "+tableauJoueurs[1].y+" + "+tableauJoueurs[1].height+" ("+(tableauJoueurs[1].y+tableauJoueurs[1].height)+")");
   }
-  ctx.restore();*/
+  ctx.restore();
 }
