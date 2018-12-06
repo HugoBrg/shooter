@@ -266,28 +266,28 @@ console.log("on est entrés dans la fonction");
   document.addEventListener('keydown', function (event) { 
     switch (event.keyCode) {
       case 37:
-            tableauJoueurs[0].x-=vx;//gauche
+            joueur1.x-=vx;//gauche
             break;
       case 38:
-            tableauJoueurs[0].y-=vy;//haut
+            joueur1.y-=vy;//haut
               break;
         case 39:
-                tableauJoueurs[0].x+=vx; //droite
+                joueur1.x+=vx; //droite
                 break;
         case 40:
-                tableauJoueurs[0].y+=vy; //bas
+                joueur1.y+=vy; //bas
                 break;
             case 81:
-                    tableauJoueurs[1].x-=vx;//gauche
+                    joueur2.x-=vx;//gauche
             break;
             case 90:
-            tableauJoueurs[1].y-=vy;//haut
+            joueur2.y-=vy;//haut
               break;
         case 68:
-                tableauJoueurs[1].x+=vx; //droite
+                joueur2.x+=vx; //droite
                 break;
         case 83:
-                tableauJoueurs[1].y+=vy; //bas
+                joueur2.y+=vy; //bas
                 break;
             case 32:
                       console.log("Tir");
@@ -297,12 +297,8 @@ console.log("on est entrés dans la fonction");
             
     }
   });*/
-<<<<<<< HEAD
-  joueur1 = new Joueur(100, 100, 4.75, 2, 100);
-  joueur2 = new Joueur(400, 400, 4.75, 2, 100);
-=======
-  joueur1 = new Joueur(100, 100, 4.75, 2, 100,20,20,20);
->>>>>>> 0761a8f9abeb98d43cb2215384c9b27da43d45f6
+  joueur1 = new Joueur(100, 100, 4.75, 2, 100,10,20,20);
+  joueur2 = new Joueur(400, 400, 4.75, 2, 100,10,20,20);
   window.addEventListener('keydown', function(evt) {
     if(event.keyCode==32){
       inputStates.SPACE = true;
@@ -480,7 +476,7 @@ function afficherBarresVie() {
 
   /*-------JOUEUR--1-------*/
   //console.log("----------------------");
-  //console.log(tableauJoueurs[0].vie);
+  //console.log(joueur1.vie);
   // Barre de vie du joueur 1 plus de 60 pv (vert)
   if (joueur1.vie<=100 &&joueur1.vie>60) {
     //console.log("vie verte joueur 1");
@@ -502,7 +498,7 @@ function afficherBarresVie() {
   // Création de la barre de vie du joueur 1
   ctx.fillRect(rect1X,rect1Y,rect1Width,rect1Height);
   ctx.restore();
-  //console.log(tableauJoueurs[1].vie);
+  //console.log(joueur2.vie);
 ctx.save()
   /*-------JOUEUR--2-------*/
   // Barre de vie du joueur 2 plus de 60 pv (vert)
@@ -531,7 +527,7 @@ ctx.save()
 let angle=0;
 function anime() {
   wallCollision(joueur1);
-  //characterCollision(joueur1,joueur2);
+  characterCollision(joueur1,joueur2);
   // 1 On efface le canvas
   ctx.clearRect(0, 0, lc, hc);
 	// 2 On regarde quel background on doit afficher
@@ -602,34 +598,36 @@ function wallCollision(joueur){
   ctx.restore();
 }
 
-function characterCollision(tableauJoueurs){
+function characterCollision(joueur1,joueur2){
   ctx.save();
 
   ctx.beginPath();
-  ctx.moveTo(tableauJoueurs[0].x,tableauJoueurs[0].y);
-  ctx.lineTo(tableauJoueurs[0].x+tableauJoueurs[0].width,tableauJoueurs[0].y);
-  ctx.lineTo(tableauJoueurs[0].x+tableauJoueurs[0].width,tableauJoueurs[0].y+tableauJoueurs[0].height);
-  ctx.lineTo(tableauJoueurs[0].x,tableauJoueurs[0].y+tableauJoueurs[0].height);
-  ctx.lineTo(tableauJoueurs[0].x,tableauJoueurs[0].y);
+  ctx.moveTo(joueur1.x,joueur1.y);
+  ctx.lineTo(joueur1.x+joueur1.width,joueur1.y);
+  ctx.lineTo(joueur1.x+joueur1.width,joueur1.y+joueur1.height);
+  ctx.lineTo(joueur1.x,joueur1.y+joueur1.height);
+  ctx.lineTo(joueur1.x,joueur1.y);
   ctx.stroke();
 
   ctx.beginPath();
-  ctx.moveTo(tableauJoueurs[1].x,tableauJoueurs[1].y);
-  ctx.lineTo(tableauJoueurs[1].x+tableauJoueurs[1].width,tableauJoueurs[1].y);
-  ctx.lineTo(tableauJoueurs[1].x+tableauJoueurs[1].width,tableauJoueurs[1].y+tableauJoueurs[1].height);
-  ctx.lineTo(tableauJoueurs[1].x,tableauJoueurs[1].y+tableauJoueurs[1].height);
-  ctx.lineTo(tableauJoueurs[1].x,tableauJoueurs[1].y);
+  ctx.moveTo(joueur2.x,joueur2.y);
+  ctx.lineTo(joueur2.x+joueur2.width,joueur2.y);
+  ctx.lineTo(joueur2.x+joueur2.width,joueur2.y+joueur2.height);
+  ctx.lineTo(joueur2.x,joueur2.y+joueur2.height);
+  ctx.lineTo(joueur2.x,joueur2.y);
   ctx.stroke();
 
-  if (tableauJoueurs[0].x < tableauJoueurs[1].x + tableauJoueurs[1].width &&
-    tableauJoueurs[0].x + tableauJoueurs[0].width > tableauJoueurs[1].x &&
-    tableauJoueurs[0].y < tableauJoueurs[1].y + tableauJoueurs[1].height &&
-    tableauJoueurs[0].height + tableauJoueurs[0].y > tableauJoueurs[1].y) {
+  if (joueur1.x < joueur2.x + joueur2.width &&
+    joueur1.x + joueur1.width > joueur2.x &&
+    joueur1.y < joueur2.y + joueur2.height &&
+    joueur1.height + joueur1.y > joueur2.y) {
       ctx.globalAlpha = 0.2;
       ctx.fillStyle = "red";
-      ctx.fillRect(tableauJoueurs[0].x-10,tableauJoueurs[0].y-10,tableauJoueurs[0].width+20,tableauJoueurs[0].height+20);
-      ctx.fillRect(tableauJoueurs[1].x-10,tableauJoueurs[1].y-10,tableauJoueurs[1].width+20,tableauJoueurs[1].height+20);
+      ctx.fillRect(joueur1.x-10,joueur1.y-10,joueur1.width+20,joueur1.height+20);
+      ctx.fillRect(joueur2.x-10,joueur2.y-10,joueur2.width+20,joueur2.height+20);
       ctx.globalAlpha = 1.0;
+      console.log("col");
  }
+
   ctx.restore();
 }
