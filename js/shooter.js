@@ -22,8 +22,12 @@ var loadedAssets;
 var joueur1;
 var mousepos = { x: 0, y: 0 };
 var inputStates = {};
-let x=0;
-let y=0;
+let xj1=0;
+let yj1=0;
+let xj2=0;
+let yj2=0;
+let anglej1;
+let anglej2;
 var assetsToLoadURLs = {
     background1: { url: 'assets/dj.jpg' }, // http://www.clipartlord.com/category/weather-clip-art/winter-clip-art/
     background2: { url: "assets/FLA09ACroppedB-735x556.jpg" },
@@ -290,6 +294,7 @@ console.log("on est entrés dans la fonction");
     }
   });*/
   joueur1 = new Joueur(100, 100, 4.75, 2, 100);
+  joueur2 = new Joueur(400, 400, 4.75, 2, 100);
   window.addEventListener('keydown', function(evt) {
     if(event.keyCode==32){
       inputStates.SPACE = true;
@@ -298,45 +303,49 @@ console.log("on est entrés dans la fonction");
   });
   
   window.addEventListener('keyup', function(evt) {
-    if(event.keyCode==32){
+   // if(event.keyCode==32){
       inputStates.SPACE = false;
-    }
+   // }
   });
   
     window.addEventListener('keydown', function (event) { 
     switch (event.keyCode) {
       case 37:
             console.log("gauche");
-            x=-20;//gauche
-            angle=0;
+            xj1=-20;//gauche
+            anglej1=0;
             break;
       case 38:
             console.log("haut");
-            y=-20;//haut
-            angle = 1.55;
+            yj1=-20;//haut
+            anglej1 = 1.55;
              break;
       case 39:
             console.log("droite");
-            x=20; //droite
-            angle = 3.15;
+            xj1=20; //droite
+            anglej1= 3.15;
             break;
       case 40:
             console.log("bas");
-            y=20; //bas
-            angle = 4.70;
-            break;/*
+            yj1=20; //bas
+            anglej1 = 4.70;
+            break;
       case 81:
-            tableauJoueurs[1].x-=vx;//gauche
+            xj2=-20;//gauche
+            anglej2=0;
             break;
       case 90:
-            tableauJoueurs[1].y-=vy;//haut
+            yj2=-20;//haut
+            anglej2 = 1.55;
             break;
       case 68:
-            tableauJoueurs[1].x+=vx; //droite
+            xj2=20; //droite
+            anglej2 = 3.15;
             break;
       case 83:
-            tableauJoueurs[1].y+=vy; //bas
-            break; */           
+            yj2=20; //bas
+            anglej2 = 4.70;
+            break;            
     }
   });
   //this.setInterval(genererProj, 5000); //générer une image de projectile à un endroit aléatoire toutes les 2s
@@ -451,15 +460,15 @@ function afficherBarresVie() {
   // Hauteur barre de vie joueur 2
   rect2Height = 10;
   // Largeur barre de vie joueur 2
-  //rect2Width = tableauJoueurs[1].vie;
+  rect2Width = joueur2.vie;
   // Permet de créer un rectangle (barre de vie) qui suit le personnage avec la position du joueur 2
-	//rect2X = tableauJoueurs[1].x;
-  //rect2Y = tableauJoueurs[1].y-15;
+	rect2X = joueur2.x-45;
+  rect2Y = joueur2.y-25;
 
   /*-------JOUEUR--1/2-------*/
   // Création de la bordure de la barre de vie des deux joueurs
   ctx.strokeRect(rect1X,rect1Y,rect1Width,rect1Height);
-  //ctx.strokeRect(rect2X,rect2Y,rect2Width,rect2Height);
+  ctx.strokeRect(rect2X,rect2Y,rect2Width,rect2Height);
 
   /*-------JOUEUR--1-------*/
   //console.log("----------------------");
@@ -486,21 +495,21 @@ function afficherBarresVie() {
   ctx.fillRect(rect1X,rect1Y,rect1Width,rect1Height);
   ctx.restore();
   //console.log(tableauJoueurs[1].vie);
-
-  /*-------JOUEUR--2-------*//*
+ctx.save()
+  /*-------JOUEUR--2-------*/
   // Barre de vie du joueur 2 plus de 60 pv (vert)
-  if (tableauJoueurs[1].vie<=100 &&tableauJoueurs[1].vie>60) {
+  if (joueur2.vie<=100 &&joueur2.vie>60) {
     //console.log("vie verte joueur2");
     color2 = 'green';
   }
   
   // Barre de vie du joueur 2 entre 30 pv et 60 pv (jaune)
-  if (tableauJoueurs[1].vie<=60 && tableauJoueurs[1].vie>30) {
+  if (joueur2.vie<=60 && joueur2.vie>30) {
     //console.log("vie jaune joueur2");
     color2 = 'yellow';
   }
   // Barre de vie du joueur 2 moins de 30 pv (rouge)
-  if (tableauJoueurs[1].vie<=30) {
+  if (joueur2.vie<=30) {
     //console.log("vie rouge joueur2");
     color2 = 'red';
   }
@@ -509,7 +518,7 @@ function afficherBarresVie() {
   //console.log(color2);
   // Création de la barre de vie du joueur 2
   ctx.fillRect(rect2X,rect2Y,rect2Width,rect2Height);
-  */
+  ctx.restore();
 }
 let angle=0;
 function anime() {
@@ -540,17 +549,22 @@ function anime() {
    // testeCollisionAvecMurs();
   // 2*/
   // 2) On dessine et on déplace le char 1
-  joueur1.draw(ctx);
+ joueur1.draw(ctx);
+ joueur2.draw(ctx);
 
- joueur1.move(x,y,angle);
-  x=0;
-  y=0;
+ joueur1.move(xj1,yj1,anglej1);
+ joueur2.move(xj2,yj2,anglej2);
+  xj1=0;
+  yj1=0;
+  xj2=0;
+  yj2=0;
  // char2.draw(ctx);
  //char2.move(mousepos);
 
 if(inputStates.SPACE) {
+  console.log("tirer");
   joueur1.addBullet(Date.now());
-  //char2.addBullet(Date.now()); 
+  joueur2.addBullet(Date.now()); 
 }
   afficherBarresVie();
  // afficherJoueurs();
