@@ -1,6 +1,7 @@
 #canvasJeu {
     border:1px solid;
     background-color:lightGrey;
+	float:left;
   }
   
 #modifBG 
@@ -9,3 +10,15 @@
 	float:left;
 }
 
+#modifSkin
+{   margin-left:100px;
+	border: 2px solid black;
+	float:left;
+}
+
+#startBtn
+{   margin-left:-150px;
+	margin-top:200px;
+	border: 2px solid black;
+	float:left;
+}
