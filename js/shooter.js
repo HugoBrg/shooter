@@ -36,7 +36,8 @@ var assetsToLoadURLs = {
     background3: { url: "assets/P1150025-735x556.jpg" },
     skin1: { url: "assets/307237.jpg" },
     proj1: { url: 'assets/fleche.png' },
-    proj2: { url: 'assets/laser.png' }
+    proj2: { url: 'assets/laser.png' },
+	musique_accueil: {url : 'assets/musique_accueil.mp3', buffer: true, loop: true, volume: 0.6}
 };
 
 function loadAssets(callback) {
@@ -260,8 +261,10 @@ function startShooter(assetsReadyToBeUsed)
 { 
 assetsCharges=assetsReadyToBeUsed;
 console.log("on est entrés dans la fonction");
-	lc = canvas.width;
+  lc = canvas.width;
   hc = canvas.height;
+  genererInterface();
+	
   /*genererJoueurs();
   document.addEventListener('keydown', function (event) { 
     switch (event.keyCode) {
@@ -355,6 +358,88 @@ console.log("on est entrés dans la fonction");
   //this.setInterval(genererProj, 5000); //générer une image de projectile à un endroit aléatoire toutes les 2s
   // Pour animation à 60 im/s
   requestAnimationFrame(anime);
+}
+
+function genererInterface()
+{ assetsCharges.musique_accueil.play();
+	genererListeSkins();
+	
+	var myDiv = document.getElementById("startBtn");
+   var texteBtn="𝕊ℍ𝕆𝕆𝕋𝔼ℝ 𝕊𝕋𝔸ℝ𝕋?";
+   var btn=document.createElement("button");
+	btn.innerHTML=texteBtn;
+	myDiv.appendChild(btn);
+	
+	btn.addEventListener("click",function() {
+		combat=true;
+	assetsCharges.musique_accueil.stop();
+	
+});
+
+}
+
+function genererListeSkins()
+{
+		
+var myDiv = document.getElementById("modifSkin");
+
+//Create array of options to be added
+var array = ["1","2"];
+var paragraphe=document.createElement("p");
+var texte = document.createTextNode("Choix du skin pour le joueur 1");
+paragraphe.appendChild(texte);
+
+//Create and append select list
+var selectList = document.createElement("select");
+selectList.id = "listeSkins";
+myDiv.appendChild(paragraphe);
+myDiv.appendChild(selectList);
+
+//Create and append the options
+for (var i = 0; i < array.length; i++) {
+    var option = document.createElement("option");
+    option.value = array[i];
+    option.text = array[i];
+    selectList.appendChild(option);
+}
+
+selectList.addEventListener("click",function() {
+	switch(selectList.value)
+	{
+		case '1': joueur1.couleur="blue"; break;
+		case '2': joueur1.couleur="yellow"; break;
+	}
+	
+});
+
+//Create array of options to be added
+var paragraphe=document.createElement("p");
+var texte = document.createTextNode("Choix du skin pour le joueur 2");
+paragraphe.appendChild(texte);
+
+//Create and append select list
+var selectList2 = document.createElement("select");
+selectList2.id = "listeSkins";
+myDiv.appendChild(paragraphe);
+myDiv.appendChild(selectList2);
+
+//Create and append the options
+for (var i = 0; i < array.length; i++) {
+    var option = document.createElement("option");
+    option.value = array[i];
+    option.text = array[i];
+    selectList2.appendChild(option);
+}
+
+selectList2.addEventListener("click",function() {
+	switch(selectList2.value)
+	{
+		case '1': joueur2.couleur="blue"; break;
+		case '2': joueur2.couleur="yellow"; break;
+	}
+	
+});
+	
 }
 
 /*
