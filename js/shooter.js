@@ -286,8 +286,8 @@ console.log("on est entrés dans la fonction");
             
     }
   });*/
-   joueur1 = new Joueur(100, 100, 4.75, 2, 100,"red");
-  joueur2 = new Joueur(500, 100, 4.75, 2, 100,"green");
+   joueur1 = new Joueur(100, 100, 4.75, 2, 100,100,"red");
+  joueur2 = new Joueur(500, 100, 4.75, 2, 100,100,"green");
   window.addEventListener('keydown', function(evt) {
     if(event.keyCode==32){
       inputStates.SPACE = true;
