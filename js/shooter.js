@@ -626,8 +626,8 @@ function anime() {
    // testeCollisionAvecMurs();
   // 2*/
   // 2) On dessine et on déplace le char 1
- joueur1.draw(ctx);
- joueur2.draw(ctx);
+ joueur1.draw(ctx,joueur1.couleur);
+ joueur2.draw(ctx,joueur2.couleur);
 
  joueur1.move(xj1,yj1,anglej1);
  joueur2.move(xj2,yj2,anglej2);
