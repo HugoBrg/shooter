@@ -22,6 +22,7 @@ let height;
 let test=0;
 var loadedAssets;
 var joueur1;
+let combat;
 var mousepos = { x: 0, y: 0 };
 var inputStates = {};
 let xj1=0;
@@ -37,7 +38,11 @@ var assetsToLoadURLs = {
     skin1: { url: "assets/307237.jpg" },
     proj1: { url: 'assets/fleche.png' },
     proj2: { url: 'assets/laser.png' },
-	musique_accueil: {url : 'assets/musique_accueil.mp3', buffer: true, loop: true, volume: 0.6}
+	musique_accueil: {url : 'assets/musique_accueil.mp3', buffer: true, loop: true, volume: 0.6},
+	start_battle: { url: 'assets/battle_start.mp3', buffer:true, loop:false, volume:0.6},
+	laser_son: { url: 'assets/laser_son.mp3', buffer:true, loop:false, volume:0.3},
+	combat_1: { url: 'assets/combat_1.mp3', buffer:true, loop:true, volume:0.6},
+	combat_2: { url: 'assets/combat_2.mp3', buffer:true, loop:true, volume:0.6}
 };
 
 function loadAssets(callback) {
@@ -250,42 +255,7 @@ console.log("on est entrés dans la fonction");
   lc = canvas.width;
   hc = canvas.height;
   genererInterface();
-	
-  /*genererJoueurs();
-  document.addEventListener('keydown', function (event) { 
-    switch (event.keyCode) {
-      case 37:
-            joueur1.x-=vx;//gauche
-            break;
-      case 38:
-            joueur1.y-=vy;//haut
-              break;
-        case 39:
-                joueur1.x+=vx; //droite
-                break;
-        case 40:
-                joueur1.y+=vy; //bas
-                break;
-            case 81:
-                    joueur2.x-=vx;//gauche
-            break;
-            case 90:
-            joueur2.y-=vy;//haut
-              break;
-        case 68:
-                joueur2.x+=vx; //droite
-                break;
-        case 83:
-                joueur2.y+=vy; //bas
-                break;
-            case 32:
-                      console.log("Tir");
-                     tirer();
-                     break;
-            
-            
-    }
-  });*/
+
    joueur1 = new Joueur(100, 100, 4.75, 2, 100,100,"red");
   joueur2 = new Joueur(500, 100, 4.75, 2, 100,100,"green");
   window.addEventListener('keydown', function(evt) {
@@ -359,11 +329,34 @@ function genererInterface()
 	btn.addEventListener("click",function() {
 		combat=true;
 	assetsCharges.musique_accueil.stop();
+	assetsCharges.start_battle.play();
+	alert("J1 vs J2, c'est parti!");
+	btn.disabled=true;
+	joueur1.x=lc/2;
+	joueur1.y=hc/7;
 	
-});
+	joueur2.x=lc/2;
+	joueur2.y=hc-hc/7;
+	});
 
 }
-
+let musiqueActuelle;
+function choixMusique()
+{ 
+	let liste=document.getElementById("liste");
+	let val=liste.options[liste.selectedIndex].value;
+	console.log(liste.selectedIndex);
+	liste.style.visibility="initial";
+	if(val!=musiqueActuelle)
+	{ musiqueActuelle=val;
+	switch(val)
+	{
+		case "ost1": console.log(liste.value); assetsCharges.combat_2.stop(); assetsCharges.combat_1.play(); break;
+		case "ost2": assetsCharges.combat_1.stop(); assetsCharges.combat_2.play(); break;
+	}
+	
+	}
+}
 function genererListeSkins()
 {
 		
@@ -597,6 +590,8 @@ ctx.save()
 }
 let angle=0;
 function anime() {
+	if(combat==true) choixMusique();
+
   wallCollision(joueur1);
   characterCollision(joueur1,joueur2);
   // 1 On efface le canvas
@@ -625,7 +620,7 @@ function anime() {
   
    // testeCollisionAvecMurs();
   // 2*/
-  // 2) On dessine et on déplace le char 1
+  // 2) On dessine et on déplace les persos
  joueur1.draw(ctx,joueur1.couleur);
  joueur2.draw(ctx,joueur2.couleur);
 
@@ -639,9 +634,9 @@ function anime() {
  //char2.move(mousepos);
 
 if(inputStates.SPACE) {
-  console.log("tirer");
   joueur1.addBullet(Date.now());
-  joueur2.addBullet(Date.now()); 
+ // joueur2.addBullet(Date.now()); 
+  assetsCharges.laser_son.play();
 }
   afficherBarresVie();
  // afficherJoueurs();
