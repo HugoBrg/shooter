@@ -157,13 +157,8 @@ class Joueur {
     ctx.rotate(this.angle);
     ctx.translate(-10, -10);
     ctx.fillStyle=couleur;
-    // corps
     ctx.fillRect(0, 0, 20, 20);
-    // canon
-    //ctx.fillRect(-10, 9, 10, 2);
-    
     ctx.restore();
-    
     this.drawBullets(ctx);
 
   }
@@ -226,18 +221,6 @@ class Joueur {
     }
 }
 
-/*
-class Projectile {
-  constructor(){ 
-    this.x=Math.floor((Math.random() * lc) + 1);
-    this.y=Math.floor((Math.random() * hc) + 1);
-  }
-    
-  draw(ctx) { 
-    ctx.drawImage(assetsCharges.proj2, this.x, this.y,100,150);
-    }
-  }
-*/
 window.onload = function () {
   init(); 
 }
@@ -264,10 +247,16 @@ console.log("on est entrés dans la fonction");
       this.console.log("tir");
     }
   });
-  
+  window.addEventListener('keydown', function(evt) {
+    if(event.keyCode==65){
+      inputStates.A = true;
+      this.console.log("tir");
+    }
+  });
   window.addEventListener('keyup', function(evt) {
    // if(event.keyCode==32){
       inputStates.SPACE = false;
+      inputStates.A = false;
    // }
   });
   
@@ -630,12 +619,16 @@ function anime() {
   yj1=0;
   xj2=0;
   yj2=0;
- // char2.draw(ctx);
- //char2.move(mousepos);
+
 
 if(inputStates.SPACE) {
   joueur1.addBullet(Date.now());
- // joueur2.addBullet(Date.now()); 
+  //joueur2.addBullet(Date.now()); 
+  assetsCharges.laser_son.play();
+}
+if(inputStates.A) {
+  //joueur1.addBullet(Date.now());
+  joueur2.addBullet(Date.now()); 
   assetsCharges.laser_son.play();
 }
   afficherBarresVie();
