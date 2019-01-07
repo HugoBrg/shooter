@@ -139,12 +139,14 @@ class Bullet {
 }
 
 class Joueur {
-  constructor(x, y, angle, vitesse, vie, tempsMinEntreTirsEnMillisecondes,couleur) {
+  constructor(x, y, angle, vitesse, vie, tempsMinEntreTirsEnMillisecondes,couleur, width, height) {
     this.x = x;
     this.y = y;
     this.angle = angle;
     this.v = vitesse;
     this.vie = vie;
+    this.width = width;
+    this.height = height;
     this.bullets = [];
 	this.couleur=couleur;
     // cadenceTir en millisecondes = temps min entre tirs
@@ -157,7 +159,11 @@ class Joueur {
     ctx.rotate(this.angle);
     ctx.translate(-10, -10);
     ctx.fillStyle=couleur;
-    ctx.fillRect(0, 0, 20, 20);
+    // corps
+    ctx.fillRect(0, 0, this.width, this.height);
+    // canon
+    //ctx.fillRect(-10, 9, 10, 2);
+    
     ctx.restore();
     this.drawBullets(ctx);
 
@@ -239,8 +245,8 @@ console.log("on est entrés dans la fonction");
   hc = canvas.height;
   genererInterface();
 
-   joueur1 = new Joueur(100, 100, 4.75, 2, 100,100,"red");
-  joueur2 = new Joueur(500, 100, 4.75, 2, 100,100,"green");
+  joueur1 = new Joueur(100, 100, 4.75, 2, 100,100,"red",20,20);
+  joueur2 = new Joueur(500, 100, 4.75, 2, 100,100,"green",20,20);
   window.addEventListener('keydown', function(evt) {
     if(event.keyCode==32){
       inputStates.SPACE = true;
@@ -263,22 +269,22 @@ console.log("on est entrés dans la fonction");
     window.addEventListener('keydown', function (event) { 
     switch (event.keyCode) {
       case 37:
-            console.log("gauche");
+            //console.log("gauche");
             xj1=-20;//gauche
             anglej1=0;
             break;
       case 38:
-            console.log("haut");
+            //console.log("haut");
             yj1=-20;//haut
             anglej1 = 1.55;
              break;
       case 39:
-            console.log("droite");
+            //console.log("droite");
             xj1=20; //droite
             anglej1= 3.15;
             break;
       case 40:
-            console.log("bas");
+            //console.log("bas");
             yj1=20; //bas
             anglej1 = 4.70;
             break;
@@ -552,7 +558,7 @@ function afficherBarresVie() {
   ctx.fillRect(rect1X,rect1Y,rect1Width,rect1Height);
   ctx.restore();
   //console.log(joueur2.vie);
-ctx.save()
+  ctx.save()
   /*-------JOUEUR--2-------*/
   // Barre de vie du joueur 2 plus de 60 pv (vert)
   if (joueur2.vie<=100 &&joueur2.vie>60) {
@@ -582,6 +588,7 @@ function anime() {
 	if(combat==true) choixMusique();
 
   wallCollision(joueur1);
+  wallCollision(joueur2);
   characterCollision(joueur1,joueur2);
   // 1 On efface le canvas
   ctx.clearRect(0, 0, lc, hc);
@@ -599,7 +606,7 @@ function anime() {
     default: 
       break;
     }
-	
+	vainqueur(joueur1,joueur2);
 /*
     // 2 On dessine
     dessinerLesTirs();
@@ -685,8 +692,19 @@ function characterCollision(joueur1,joueur2){
       ctx.fillRect(joueur1.x-10,joueur1.y-10,joueur1.width+20,joueur1.height+20);
       ctx.fillRect(joueur2.x-10,joueur2.y-10,joueur2.width+20,joueur2.height+20);
       ctx.globalAlpha = 1.0;
-      console.log("col");
+      console.log("collision");   
  }
+ ctx.restore();
+}
 
-  ctx.restore();
+function projectileCollision(joueur){
+  
+}
+function vainqueur(joueur1,joueur2){
+  if(joueur1.vie<=0){
+    alert("Le joueur 2 à gagné");
+  }
+  if(joueur2.vie<=0){
+    alert("Le joueur 1 à gagné");
+  }
 }
