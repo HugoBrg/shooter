@@ -165,7 +165,6 @@ class Joueur {
     //ctx.fillRect(-10, 9, 10, 2);
     
     ctx.restore();
-    
     this.drawBullets(ctx);
 
   }
@@ -228,18 +227,6 @@ class Joueur {
     }
 }
 
-/*
-class Projectile {
-  constructor(){ 
-    this.x=Math.floor((Math.random() * lc) + 1);
-    this.y=Math.floor((Math.random() * hc) + 1);
-  }
-    
-  draw(ctx) { 
-    ctx.drawImage(assetsCharges.proj2, this.x, this.y,100,150);
-    }
-  }
-*/
 window.onload = function () {
   init(); 
 }
@@ -258,7 +245,7 @@ console.log("on est entrés dans la fonction");
   hc = canvas.height;
   genererInterface();
 
-   joueur1 = new Joueur(100, 100, 4.75, 2, 100,100,"red",20,20);
+  joueur1 = new Joueur(100, 100, 4.75, 2, 100,100,"red",20,20);
   joueur2 = new Joueur(500, 100, 4.75, 2, 100,100,"green",20,20);
   window.addEventListener('keydown', function(evt) {
     if(event.keyCode==32){
@@ -266,10 +253,16 @@ console.log("on est entrés dans la fonction");
       this.console.log("tir");
     }
   });
-  
+  window.addEventListener('keydown', function(evt) {
+    if(event.keyCode==65){
+      inputStates.A = true;
+      this.console.log("tir");
+    }
+  });
   window.addEventListener('keyup', function(evt) {
    // if(event.keyCode==32){
       inputStates.SPACE = false;
+      inputStates.A = false;
    // }
   });
   
@@ -565,7 +558,7 @@ function afficherBarresVie() {
   ctx.fillRect(rect1X,rect1Y,rect1Width,rect1Height);
   ctx.restore();
   //console.log(joueur2.vie);
-ctx.save()
+  ctx.save()
   /*-------JOUEUR--2-------*/
   // Barre de vie du joueur 2 plus de 60 pv (vert)
   if (joueur2.vie<=100 &&joueur2.vie>60) {
@@ -614,7 +607,7 @@ function anime() {
     default: 
       break;
     }
-	
+	vainqueur(joueur1,joueur2);
 /*
     // 2 On dessine
     dessinerLesTirs();
@@ -634,12 +627,16 @@ function anime() {
   yj1=0;
   xj2=0;
   yj2=0;
- // char2.draw(ctx);
- //char2.move(mousepos);
+
 
 if(inputStates.SPACE) {
   joueur1.addBullet(Date.now());
- // joueur2.addBullet(Date.now()); 
+  //joueur2.addBullet(Date.now()); 
+  assetsCharges.laser_son.play();
+}
+if(inputStates.A) {
+  //joueur1.addBullet(Date.now());
+  joueur2.addBullet(Date.now()); 
   assetsCharges.laser_son.play();
 }
   afficherBarresVie();
@@ -707,4 +704,14 @@ function projectileCollision(joueur1,joueur2){
     console.log("bullet");
   }
   //if(joueur1.x < joueur2.bullets.x)
+function projectileCollision(joueur){
+  
+}
+function vainqueur(joueur1,joueur2){
+  if(joueur1.vie<=0){
+    alert("Le joueur 2 à gagné");
+  }
+  if(joueur2.vie<=0){
+    alert("Le joueur 1 à gagné");
+  }
 }
