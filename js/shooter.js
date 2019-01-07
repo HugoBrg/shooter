@@ -699,14 +699,14 @@ function characterCollision(joueur1,joueur2){
 }
 
 function projectileCollision(joueur1,joueur2){
-  //console.log(joueur2.bullets.length);
+  console.log("test");
+  console.log(joueur2.bullets.length);
   for(i=0;i<joueur2.bullets.length;i++){
     console.log("bullet");
   }
   //if(joueur1.x < joueur2.bullets.x)
-function projectileCollision(joueur){
-  
 }
+
 function vainqueur(joueur1,joueur2){
   if(joueur1.vie<=0){
     alert("Le joueur 2 à gagné");
