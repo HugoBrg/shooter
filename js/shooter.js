@@ -39,10 +39,13 @@ var assetsToLoadURLs = {
     proj1: { url: 'assets/fleche.png' },
     proj2: { url: 'assets/laser.png' },
 	musique_accueil: {url : 'assets/musique_accueil.mp3', buffer: true, loop: true, volume: 0.6},
-	start_battle: { url: 'assets/battle_start.mp3', buffer:true, loop:false, volume:0.6},
-	laser_son: { url: 'assets/laser_son.mp3', buffer:true, loop:false, volume:0.3},
+	start_battle: { url: 'assets/battle_start.mp3', buffer:true, loop:false, volume:1.0},
+	laser_son: { url: 'assets/laser_son.mp3', buffer:true, loop:false, volume:0.1},
 	combat_1: { url: 'assets/combat_1.mp3', buffer:true, loop:true, volume:0.6},
-	combat_2: { url: 'assets/combat_2.mp3', buffer:true, loop:true, volume:0.6}
+	combat_2: { url: 'assets/combat_2.mp3', buffer:true, loop:true, volume:0.6},
+	combat_3: { url: 'assets/combat_3.mp3', buffer:true, loop:true, volume:0.6},
+	combat_4: { url: 'assets/combat_4.mp3', buffer:true, loop:true, volume:0.6},
+	combat_5: { url: 'assets/combat_5.mp3', buffer:true, loop:true, volume:0.6}	
 };
 
 function loadAssets(callback) {
@@ -139,14 +142,12 @@ class Bullet {
 }
 
 class Joueur {
-  constructor(x, y, angle, vitesse, vie, tempsMinEntreTirsEnMillisecondes,couleur, width, height) {
+  constructor(x, y, angle, vitesse, vie, tempsMinEntreTirsEnMillisecondes,couleur) {
     this.x = x;
     this.y = y;
     this.angle = angle;
     this.v = vitesse;
     this.vie = vie;
-    this.width = width;
-    this.height = height;
     this.bullets = [];
 	this.couleur=couleur;
     // cadenceTir en millisecondes = temps min entre tirs
@@ -160,11 +161,12 @@ class Joueur {
     ctx.translate(-10, -10);
     ctx.fillStyle=couleur;
     // corps
-    ctx.fillRect(0, 0, this.width, this.height);
+    ctx.fillRect(0, 0, 20, 20);
     // canon
     //ctx.fillRect(-10, 9, 10, 2);
     
     ctx.restore();
+    
     this.drawBullets(ctx);
 
   }
@@ -245,46 +247,40 @@ console.log("on est entrés dans la fonction");
   hc = canvas.height;
   genererInterface();
 
-  joueur1 = new Joueur(100, 100, 4.75, 2, 100,100,"red",20,20);
-  joueur2 = new Joueur(500, 100, 4.75, 2, 100,100,"green",20,20);
+   joueur1 = new Joueur(100, 100, 4.75, 2, 100,100,"red");
+  joueur2 = new Joueur(500, 100, 4.75, 2, 100,100,"green");
   window.addEventListener('keydown', function(evt) {
     if(event.keyCode==32){
       inputStates.SPACE = true;
       this.console.log("tir");
     }
   });
-  window.addEventListener('keydown', function(evt) {
-    if(event.keyCode==65){
-      inputStates.A = true;
-      this.console.log("tir");
-    }
-  });
+  
   window.addEventListener('keyup', function(evt) {
    // if(event.keyCode==32){
       inputStates.SPACE = false;
-      inputStates.A = false;
    // }
   });
   
     window.addEventListener('keydown', function (event) { 
     switch (event.keyCode) {
       case 37:
-            //console.log("gauche");
+            console.log("gauche");
             xj1=-20;//gauche
             anglej1=0;
             break;
       case 38:
-            //console.log("haut");
+            console.log("haut");
             yj1=-20;//haut
             anglej1 = 1.55;
              break;
       case 39:
-            //console.log("droite");
+            console.log("droite");
             xj1=20; //droite
             anglej1= 3.15;
             break;
       case 40:
-            //console.log("bas");
+            console.log("bas");
             yj1=20; //bas
             anglej1 = 4.70;
             break;
@@ -335,23 +331,40 @@ function genererInterface()
 	});
 
 }
+
 let musiqueActuelle;
+
 function choixMusique()
 { 
 	let liste=document.getElementById("liste");
 	let val=liste.options[liste.selectedIndex].value;
 	console.log(liste.selectedIndex);
 	liste.style.visibility="initial";
+	
 	if(val!=musiqueActuelle)
 	{ musiqueActuelle=val;
 	switch(val)
 	{
-		case "ost1": console.log(liste.value); assetsCharges.combat_2.stop(); assetsCharges.combat_1.play(); break;
-		case "ost2": assetsCharges.combat_1.stop(); assetsCharges.combat_2.play(); break;
+		case "ost1": stopMusique(); assetsCharges.combat_1.play(); break;
+		case "ost2": stopMusique(); assetsCharges.combat_2.play(); break;
+		case "ost3": stopMusique(); assetsCharges.combat_3.play(); break;
+		case "ost4": stopMusique(); assetsCharges.combat_4.play(); break;
+		case "ost5": stopMusique(); assetsCharges.combat_5.play(); break;
+		default: stopMusique(); break;
 	}
 	
 	}
 }
+
+function stopMusique()
+{
+	assetsCharges.combat_1.stop();
+	assetsCharges.combat_2.stop();
+	assetsCharges.combat_3.stop();
+	assetsCharges.combat_4.stop();
+	assetsCharges.combat_5.stop();
+}
+
 function genererListeSkins()
 {
 		
@@ -558,7 +571,7 @@ function afficherBarresVie() {
   ctx.fillRect(rect1X,rect1Y,rect1Width,rect1Height);
   ctx.restore();
   //console.log(joueur2.vie);
-  ctx.save()
+ctx.save()
   /*-------JOUEUR--2-------*/
   // Barre de vie du joueur 2 plus de 60 pv (vert)
   if (joueur2.vie<=100 &&joueur2.vie>60) {
@@ -588,9 +601,7 @@ function anime() {
 	if(combat==true) choixMusique();
 
   wallCollision(joueur1);
-  wallCollision(joueur2);
   characterCollision(joueur1,joueur2);
-  projectileCollision(joueur1,joueur2);
   // 1 On efface le canvas
   ctx.clearRect(0, 0, lc, hc);
 	// 2 On regarde quel background on doit afficher
@@ -607,7 +618,7 @@ function anime() {
     default: 
       break;
     }
-	vainqueur(joueur1,joueur2);
+	
 /*
     // 2 On dessine
     dessinerLesTirs();
@@ -627,16 +638,12 @@ function anime() {
   yj1=0;
   xj2=0;
   yj2=0;
-
+ // char2.draw(ctx);
+ //char2.move(mousepos);
 
 if(inputStates.SPACE) {
   joueur1.addBullet(Date.now());
-  //joueur2.addBullet(Date.now()); 
-  assetsCharges.laser_son.play();
-}
-if(inputStates.A) {
-  //joueur1.addBullet(Date.now());
-  joueur2.addBullet(Date.now()); 
+ // joueur2.addBullet(Date.now()); 
   assetsCharges.laser_son.play();
 }
   afficherBarresVie();
@@ -693,25 +700,8 @@ function characterCollision(joueur1,joueur2){
       ctx.fillRect(joueur1.x-10,joueur1.y-10,joueur1.width+20,joueur1.height+20);
       ctx.fillRect(joueur2.x-10,joueur2.y-10,joueur2.width+20,joueur2.height+20);
       ctx.globalAlpha = 1.0;
-      console.log("collision entre joueurs");   
+      console.log("col");
  }
- ctx.restore();
-}
 
-function projectileCollision(joueur1,joueur2){
-  console.log("test");
-  console.log(joueur2.bullets.length);
-  for(i=0;i<joueur2.bullets.length;i++){
-    console.log("bullet");
-  }
-  //if(joueur1.x < joueur2.bullets.x)
-}
-
-function vainqueur(joueur1,joueur2){
-  if(joueur1.vie<=0){
-    alert("Le joueur 2 à gagné");
-  }
-  if(joueur2.vie<=0){
-    alert("Le joueur 1 à gagné");
-  }
+  ctx.restore();
 }
