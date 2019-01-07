@@ -597,6 +597,7 @@ function anime() {
   wallCollision(joueur1);
   wallCollision(joueur2);
   characterCollision(joueur1,joueur2);
+  projectileCollision(joueur1,joueur2);
   // 1 On efface le canvas
   ctx.clearRect(0, 0, lc, hc);
 	// 2 On regarde quel background on doit afficher
@@ -695,11 +696,15 @@ function characterCollision(joueur1,joueur2){
       ctx.fillRect(joueur1.x-10,joueur1.y-10,joueur1.width+20,joueur1.height+20);
       ctx.fillRect(joueur2.x-10,joueur2.y-10,joueur2.width+20,joueur2.height+20);
       ctx.globalAlpha = 1.0;
-      console.log("collision");   
+      console.log("collision entre joueurs");   
  }
  ctx.restore();
 }
 
-function projectileCollision(joueur){
-  
+function projectileCollision(joueur1,joueur2){
+  //console.log(joueur2.bullets.length);
+  for(i=0;i<joueur2.bullets.length;i++){
+    console.log("bullet");
+  }
+  //if(joueur1.x < joueur2.bullets.x)
 }
