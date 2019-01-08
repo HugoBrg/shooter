@@ -5,11 +5,9 @@ let lc;
 let hc;
 let vx=10;
 let vy=10;
-let skinJoueur=new Image();
 let project=new Image();
 let nbBG;
 let tableauJoueurs=[];
-let tableauProj=[];
 let tableauTir=[];
 let hp;
 let rect1Height = 50;
@@ -249,8 +247,8 @@ console.log("on est entrés dans la fonction");
   hc = canvas.height;
   genererInterface();
 
-   joueur1 = new Joueur(100, 100, 4.75, 2, 100,500,"red",20,20);
-  joueur2 = new Joueur(500, 100, 4.75, 2, 100,500,"green",20,20);
+   joueur1 = new Joueur(100, 100, 4.75, 2, 100,200,"blue",20,20);
+  joueur2 = new Joueur(700, 100, 4.75, 2, 100,200,"green",20,20);
   window.addEventListener('keydown', function(evt) {
     if(event.keyCode==32){
       inputStates.SPACE = true;
@@ -323,6 +321,7 @@ function genererInterface()
    var texteBtn="𝕊ℍ𝕆𝕆𝕋𝔼ℝ 𝕊𝕋𝔸ℝ𝕋?";
    var btn=document.createElement("button");
 	btn.innerHTML=texteBtn;
+	btn.setAttribute("id","btnStart");
 	myDiv.appendChild(btn);
 	
 	btn.addEventListener("click",function() {
@@ -379,7 +378,7 @@ function genererListeSkins()
 var myDiv = document.getElementById("modifSkin");
 
 //Create array of options to be added
-var array = ["1","2"];
+var array = ["1","2","3"];
 var paragraphe=document.createElement("p");
 var texte = document.createTextNode("Choix du skin pour le joueur 1");
 paragraphe.appendChild(texte);
@@ -403,6 +402,7 @@ selectList.addEventListener("click",function() {
 	{
 		case '1': joueur1.couleur="blue"; break;
 		case '2': joueur1.couleur="yellow"; break;
+		case '3': joueur1.couleur="orange"; break;
 	}
 	
 });
@@ -429,8 +429,9 @@ for (var i = 0; i < array.length; i++) {
 selectList2.addEventListener("click",function() {
 	switch(selectList2.value)
 	{
-		case '1': joueur2.couleur="blue"; break;
-		case '2': joueur2.couleur="yellow"; break;
+		case '1': joueur2.couleur="green"; break;
+		case '2': joueur2.couleur="purple"; break;
+		case '3': joueur2.couleur="brown"; break;
 	}
 	
 });
@@ -462,7 +463,6 @@ class Tir {
     return "Je suis une étoile de couleur : " + this.couleur;
   }
 }
-
 let tableauDesTirs = [];
 let joueur;
   function tirer(n,joueur) {
@@ -499,33 +499,26 @@ let joueur;
   });
       
   }
-
 function genererProj() { 
   let newproj=new Projectile();
   tableauProj.push(newproj);
-
 }
-
 function afficherProj() {  
   tableauProj.forEach((joueur) => {
     joueur.draw(ctx);
   }) 
-
 }
-
 function genererJoueurs() { 
   let j1=new Joueur(lc/2.5,100,10);
   let j2=new Joueur(lc/2.5,300,50); 
   tableauJoueurs.push(j1);
   tableauJoueurs.push(j2);  
 }
-
 function afficherJoueurs() {
   characterCollision(tableauJoueurs);
   tableauJoueurs.forEach((joueur) => {
     wallCollision(joueur,joueur.skin);
     joueur.draw(ctx);   
-
   })
 }
 */
@@ -631,15 +624,6 @@ function anime() {
       break;
     }
 	
-/*
-    // 2 On dessine
-    dessinerLesTirs();
-
-    // 3 On change l'état (position, couleur, taille etc.)
-    deplacerLesTirs();
-  
-   // testeCollisionAvecMurs();
-  // 2*/
   // 2) On dessine et on déplace les persos
  joueur1.draw(ctx,joueur1.couleur);
  joueur2.draw(ctx,joueur2.couleur);
@@ -733,10 +717,28 @@ function projectileCollisions(joueur1,joueur2){
 }
 
 function vainqueur(joueur1,joueur2){
-  if(joueur1.vie<=0){
-    alert("Le joueur 2 à gagné");
+  if(joueur1.vie<=0 && combat==true){
+    alert("Le joueur 2 a gagné");  combat=false; resetJeu();
   }
-  if(joueur2.vie<=0){
-    alert("Le joueur 1 à gagné");
+  if(joueur2.vie<=0 && combat==true){
+    alert("Le joueur 1 a gagné"); combat=false; resetJeu();
   }
 } 
+
+function resetJeu()
+{
+	joueur1.x=100;
+	joueur1.y=100;
+	joueur1.vie=100;
+	joueur2.x=700;
+	joueur2.y=100;
+	joueur2.vie=100;
+	let listeMusiques=document.getElementById("liste");
+	listeMusiques.style.visibility="hidden";
+	let btn=document.getElementById("btnStart");
+	btn.disabled=false;
+	
+	stopMusique();
+	
+	assetsCharges.musique_accueil.play();
+}
