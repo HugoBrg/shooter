@@ -19,9 +19,19 @@
 + Evenements clavier
 + Projectiles
 + Collisions (entre personnages et projectiles)
++ Sons et musiques
++ Choix personnages (pseudo, apparence)
++ Gestion de partie
++ Scoreboard
++ Multijoueur
 
 ## Modules effectués jusqu'à présent
 + Personnage: génération de 2 persos à 2 positions différentes
 + Terrain: Possibilité de changer de terrain à tout moment à l'aide d'un sélecteur en dehors de l'écran de jeu (3 disponibles pour le moment)
-+ Evenements clavier: Mouvement du personnage, tir (en cours)
-+ Projectiles: Génération d'un projectile à un endroit aléatoire du terrain toutes les 5 secondes
++ Evenements clavier: Mouvement du personnage, tir
++ Projectiles : Possibilités de tirer, d'avoir plusieurs projectiles en même temps
++ Collisions : Detection des collisions entre joueurs et entre joueurs et projectiles
++ Sons et musiques : Bruitages et sélection de soundtracks
++ Choix personnages : Choix de pseudonyme, d'apparence, de vie
++ Gestion de partie : Démarrage d'une partie, determination d'un gagnant et fin de la partie
+
