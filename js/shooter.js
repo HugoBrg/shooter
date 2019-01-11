@@ -592,6 +592,7 @@ function wallCollision(joueur){
 function characterCollision(joueur1,joueur2){
   ctx.save();
 
+  //sert à tracer les contours des joueurs 
   ctx.beginPath();
   ctx.moveTo(joueur1.x,joueur1.y);
   ctx.lineTo(joueur1.x+joueur1.width,joueur1.y);
@@ -607,11 +608,12 @@ function characterCollision(joueur1,joueur2){
   ctx.lineTo(joueur2.x,joueur2.y+joueur2.height);
   ctx.lineTo(joueur2.x,joueur2.y);
   ctx.stroke();
-
+  //on compare la position des deux joueurs 
   if (joueur1.x < joueur2.x + joueur2.width &&
     joueur1.x + joueur1.width > joueur2.x &&
     joueur1.y < joueur2.y + joueur2.height &&
     joueur1.height + joueur1.y > joueur2.y) {
+      //on affiche un rectangle rouge transparent
       ctx.globalAlpha = 0.2;
       ctx.fillStyle = "red";
       ctx.fillRect(joueur1.x-10,joueur1.y-10,joueur1.width+20,joueur1.height+20);
@@ -622,16 +624,26 @@ function characterCollision(joueur1,joueur2){
 
   ctx.restore();
 }
-
+/* gère les collisions entre projectiles et joueurs*/
 function projectileCollisions(joueur1,joueur2){
   //console.log(joueur2.bullets.length);
+  //on parcours la liste des projectiles du joueurs
   for(i=0;i<joueur1.bullets.length;i++){
+    //et on compare la position du joueur ennemi avec la position du projectile 
     if(joueur2.x < joueur1.bullets[i].x + joueur2.width && 
       joueur2.x + joueur2.width > joueur1.bullets[i].x &&
       joueur2.y < joueur1.bullets[i].y + joueur2.height &&
       joueur2.y + joueur2.height > joueur1.bullets[i].y){
+        //si on touche le joueur ennemi on supprime le projectile
         joueur1.bullets.splice(i, 1);
+        //et on décrémente la vie du joueur ennemi
+        //on affiche un carré rouge transparent de degats
         joueur2.vie-=30;
+        ctx.globalAlpha = 0.2;
+        ctx.fillStyle = "red";
+        ctx.fillRect(joueur1.x-10,joueur1.y-10,joueur1.width+20,joueur1.height+20);
+        ctx.fillRect(joueur2.x-10,joueur2.y-10,joueur2.width+20,joueur2.height+20);
+        ctx.globalAlpha = 1.0;
       }
   }
 }
