@@ -36,4 +36,4 @@
 + Gestion de partie : Démarrage d'une partie, determination d'un gagnant et fin de la partie
 
 ## Notes supplémentaires
-Il n'y a qu'un fichier .js dans notre projet (voir dossier "js") nommé "shooter.js". Ne sachant pas comment diviser notre projet en plusieurs fichiers .js, nous avons préféré finir cette première version du jeu d'abord en un seul fichier. L'ayant finie récemment, nous n'avons pas eu le temps de diviser notre projet en plusieurs fichiers.
+Il n'y a qu'un fichier .js dans notre projet (voir dossier "js") nommé "shooter.js". Ne sachant pas comment diviser notre projet en plusieurs fichiers .js, nous avons préféré finir cette première version du jeu d'abord en un seul fichier. L'ayant finie très récemment, nous n'avons pas eu le temps de diviser notre projet en plusieurs fichiers.
